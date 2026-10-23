@@ -71,7 +71,7 @@ canvas{image-rendering:pixelated;image-rendering:crisp-edges}
 <div id="title" class="scr"><h1>나에게만<br>준비된 선물</h1><div class="sub">🎁 NASDAQ FUTURES 🎁</div><button id="start" class="pbtn">START</button><div id="bestT"></div></div>
 <div id="game" class="scr"><div id="news"><span>📰 장 시작 준비</span></div>
 <div id="hud"><div id="day">DAY 1</div><div id="timer"></div><div id="bal">$10,000</div><div id="pnl">포지션 없음</div><div id="rank">개미</div></div>
-<div id="chartBox"><div id="volLbl" style="position:absolute;left:4px;bottom:44px;font-size:11px;color:#f7e26b;text-shadow:1px 1px 0 #000;z-index:3;pointer-events:none">VOL</div><canvas id="chart" width="180" height="150"></canvas><div id="price">0</div></div>
+<div id="chartBox"><canvas id="chart" width="180" height="150"></canvas><div id="price">0</div></div>
 <div id="space"></div>
 <div id="bets"><button class="pbtn sel" id="b100">$100</button><button class="pbtn" id="b500">$500</button><button class="pbtn" id="b1000">$1,000</button></div>
 <div id="acts"><button class="pbtn" id="long">LONG ▲</button><button class="pbtn" id="close">CLOSE</button><button class="pbtn" id="short">SHORT ▼</button></div>
@@ -193,11 +193,10 @@ function step(dt){if(!G.on)return;if(--mutT<=0){mutter();mutT=300+Math.random()*
  if(S.pos){const p=upnl();const r=-p/S.pos.bet;$('game').classList.toggle('mc',r>=.75);if(r>=.75&&!G.danger){G.danger=1,sayM(pick(['마진콜 떴다!!','증거금 부족이래','샤갈!!','나락 간다','좆됐다…','레버리지에 쓰이는 중']));const m=$('mm');m.className='';void m.offsetWidth;m.className='slam '+(S.pos.dir>0?'up':'dn');$('shout').style.display='none';shake=25;snd(150,.4,'sawtooth',.09,200);clearTimeout(G.mt);G.mt=setTimeout(()=>{if(G.danger)m.className='ling '+(S.pos&&S.pos.dir>0?'up':'dn')},1400)}else if(r<.6&&G.danger)dangerOff();if(r>=.75&&mood!=='panic')setMood('panic',30);if(r>=1)liquidate()}else{$('game').classList.remove('mc');if(G.danger)dangerOff()}}
 function dangerOff(){G.danger=0;clearTimeout(G.mt);$('mm').className=''}
 function drawChart(){cc.fillStyle='#1a1c2c';cc.fillRect(0,0,CW,CH);if(!G.day)return;const c=G.day.c;const vis=[];for(let j=Math.max(0,G.i-29);j<G.i;j++)vis.push(c[j]);vis.push(G.cur);
- let hi=-1e9,lo=1e9,vm=1;vis.forEach(x=>{hi=Math.max(hi,x[1]);lo=Math.min(lo,x[2]);vm=Math.max(vm,x[4]||0)});const cv=(G.cur[4]||0)*Math.min(1,G.t/CANDLE);if(S.pos){hi=Math.max(hi,S.pos.px);lo=Math.min(lo,S.pos.px)}const pad=(hi-lo)*.1+2;hi+=pad;lo-=pad;
- const VP=32,ch2=CH-VP-3,y=v=>Math.round((hi-v)/(hi-lo)*ch2)+1;cc.fillStyle='#262b44';for(let g=0;g<5;g++)cc.fillRect(0,(g*ch2/4)|0,CW,1);
+ let hi=-1e9,lo=1e9,vm=1;vis.forEach(x=>{hi=Math.max(hi,x[1]);lo=Math.min(lo,x[2]);vm=Math.max(vm,x[4]||0)});if(S.pos){hi=Math.max(hi,S.pos.px);lo=Math.min(lo,S.pos.px)}const pad=(hi-lo)*.1+2;hi+=pad;lo-=pad;
+ const ch2=CH-22,y=v=>Math.round((hi-v)/(hi-lo)*ch2)+1;cc.fillStyle='#262b44';for(let g=0;g<5;g++)cc.fillRect(0,(g*ch2/4)|0,CW,1);
  const bw=6,off=CW-vis.length*bw-14;const s0=Math.max(0,G.i-29);
- vis.forEach((x,j)=>{const X=off+j*bw;const up=x[3]>=x[0];cc.fillStyle=up?'#e43b44':'#3b7dd8';cc.fillRect(X+2,y(x[1]),1,Math.max(1,y(x[2])-y(x[1])));const t=Math.min(y(x[0]),y(x[3]));cc.fillRect(X,t,5,Math.max(1,Math.abs(y(x[0])-y(x[3]))));const live=j===vis.length-1;const vv=live?cv:(x[4]||0);const vh=Math.max(1,Math.round(vv/vm*(VP-3)));cc.fillStyle=live?(G.price>=x[0]?'#ff5a64':'#5a9cff'):(up?'#e43b44':'#3b7dd8');cc.fillRect(X,CH-vh,5,vh)});
- cc.fillStyle='#566c86';cc.fillRect(0,CH-VP-1,CW,1);{const vl=$('volLbl');if(vl)vl.textContent='VOL '+Math.round(cv).toLocaleString()}
+ vis.forEach((x,j)=>{const X=off+j*bw;const up=x[3]>=x[0];cc.fillStyle=up?'#e43b44':'#3b7dd8';cc.fillRect(X+2,y(x[1]),1,Math.max(1,y(x[2])-y(x[1])));const t=Math.min(y(x[0]),y(x[3]));cc.fillRect(X,t,5,Math.max(1,Math.abs(y(x[0])-y(x[3]))));const vh=Math.round((x[4]||0)/vm*16);cc.globalAlpha=.5;cc.fillRect(X,CH-vh,5,vh);cc.globalAlpha=1});
  G.arrows.forEach(a=>{const j=a.i-s0;if(j<0)return;const X=off+j*bw;cc.fillStyle=a.d>0?'#ff6b6b':'#6bb0ff';const Y=y(a.p);if(a.d>0){cc.fillRect(X+2,Y+3,1,1);cc.fillRect(X+1,Y+4,3,1);cc.fillRect(X,Y+5,5,1)}else{cc.fillRect(X,Y-5,5,1);cc.fillRect(X+1,Y-4,3,1);cc.fillRect(X+2,Y-3,1,1)}});
  if(S.pos){cc.fillStyle='#f7e26b';const Y=y(S.pos.px);for(let i=0;i<CW;i+=4)cc.fillRect(i,Y,2,1)}
  const LL=$('liqLine'),L=$('liqLbl');if(S.pos){const lp=S.pos.px-S.pos.dir*S.pos.bet/ptVal();const dist=Math.abs(G.price-lp)/(S.pos.bet/ptVal());const per=Math.max(4,Math.round(dist*40));const on=(frame%per)<per*.6;let Y=y(lp),ar='',pin=false;if(Y<2){Y=2;ar='▲ ';pin=true}else if(Y>ch2-2){Y=ch2-2;ar='▼ ';pin=true}

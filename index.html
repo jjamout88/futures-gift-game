@@ -192,6 +192,7 @@ MUT.ID.push('나는 바나나 알러지 원숭이');
 MUT.LL.push('비싸게 사서 싸게 팔기');MUT.SL.push('싸게 팔아서 비싸게 사기');
 MUT.LL.push('나스닥은 신이고 나는 병신이다');MUT.SL.push('나스닥은 신이고 나는 병신이다');
 MUT.SW.push('대공황 떴냐?');
+MUT.LW.push('쉽다쉬워 ㅋㅋㅋ');MUT.SW.push('쉽다쉬워 ㅋㅋㅋ');
 let lastM='';function pickNR(a){let s,n=0;do{s=pick(a)}while(s===lastM&&n++<9&&a.length>1);return lastM=s}
 function sayM(t){const e=$('mut');lastM=t;e.textContent=t;e.className='';void e.offsetWidth;e.className='show';clearTimeout(e._t);e._t=setTimeout(()=>e.className='',2800)}
 let mutT=180;function mutter(){if(!G.on)return;let k='ID';if(S.pos){const w=upnl()>=0;k=(S.pos.dir>0?'L':'S')+(w?'W':'L')}const e=$('mut');const HOT={LW:['푸근하다','숏충이들아 정신이 좀 들어?'],SW:['푸근하다','롱충이들아 정신이 좀 들어?'],LL:['한강 물온도 체크','(진짜모름) 이거 환불 안돼요?'],SL:['한강 물온도 체크','(진짜모름) 이거 환불 안돼요?']};const mv=S.pos?(G.price-G.cur[0])*S.pos.dir:0;const yc=S.pos&&S.pos.dir>0?'영차영차!':'영차영차 끌어내려!';const z=(mv>0&&lastM!==yc&&Math.random()<.45)?(S.pos.dir>0?'영차영차!':'영차영차 끌어내려!'):(HOT[k]&&Math.random()<.4)?pickNR(HOT[k]):pickNR(MUT[k]);lastM=z;e.textContent=z;e.className='';void e.offsetWidth;e.className='show';clearTimeout(e._t);e._t=setTimeout(()=>e.className='',2800)}

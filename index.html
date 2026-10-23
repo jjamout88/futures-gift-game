@@ -73,8 +73,14 @@ canvas{image-rendering:pixelated;image-rendering:crisp-edges}
 #mut.show{display:block;animation:mutp .25s}@keyframes mutp{0%{transform:scale(.4)}70%{transform:scale(1.1)}}
 #ntag{position:absolute;left:92px;top:572px;font-size:12px;padding:1px 6px;border:2px solid #1a1c2c;z-index:11;pointer-events:none;display:none}#ntag.L{display:block;background:#d83a3a;color:#fff}#ntag.S{display:block;background:#1a1c2c;color:#6bb0ff;border-color:#2f6fd0}
 #dim{position:absolute;inset:0;background:#000;opacity:0;pointer-events:none;z-index:4}#dim.on{animation:dimA .8s}@keyframes dimA{0%{opacity:0}20%{opacity:.6}70%{opacity:.5}100%{opacity:0}}
+.lb{margin-top:8px;font-size:12px;text-align:left}.lb>b{display:block;text-align:center;margin-bottom:4px}
+.lr{display:grid;grid-template-columns:22px 1fr 80px 64px;gap:4px;align-items:center;padding:2px 0}.lr span:nth-child(n+3){text-align:right}.lr.me{background:#f7e26b44}
+.nk{overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.med{display:inline-block;width:16px;height:16px;line-height:16px;text-align:center;font-style:normal;font-size:10px;color:#1a1c2c;background:var(--m);box-shadow:0 -2px 0 #b13e53,0 2px 0 #000;clip-path:polygon(25% 0,75% 0,100% 25%,100% 75%,75% 100%,25% 100%,0 75%,0 25%)}.med.n{background:none;color:inherit;box-shadow:none}
+#nkRow{display:flex;gap:6px;justify-content:center;margin-top:6px}#nick{width:120px;font:inherit;font-size:14px;padding:4px;border:2px solid #1a1c2c}#nkGo{font-size:14px;padding:4px 10px}
+#lbT{position:absolute;left:25px;top:700px;width:340px;box-sizing:border-box;padding-right:6px;max-height:130px;overflow:auto;color:#f4f4f4;z-index:3}
 </style></head><body><div id="root"><div id="wrap">
-<div id="title" class="scr"><h1>나에게만<br>준비된 선물</h1><div class="sub">🎁 NASDAQ FUTURES 🎁</div><button id="start" class="pbtn">START</button><div id="bestT"></div></div>
+<div id="title" class="scr"><h1>나에게만<br>준비된 선물</h1><div class="sub">🎁 NASDAQ FUTURES 🎁</div><button id="start" class="pbtn">START</button><div id="bestT"></div><div id="lbT"></div></div>
 <div id="game" class="scr"><div id="news"><span>📰 장 시작 준비</span></div>
 <div id="hud"><div id="day" style="visibility:hidden">DAY 1</div><div id="timer"></div><div id="bal">$10,000</div><div id="pnl">포지션 없음</div><div id="rank">개미</div></div>
 <div id="chartBox"><canvas id="chart" width="180" height="180"></canvas><div id="price">0</div></div>
@@ -135,7 +141,7 @@ let coins=[];function coinRain(n){for(let i=0;i<n;i++)coins.push({x:30+Math.rand
 // ---------- state ----------
 const BETS=[10,25,50],MINBET=50,fee=b=>Math.round((2+b*.0005)*100)/100;
 let S={bal:10000,day:0,pct:10,lev:false,pos:null,combo:0,dayStart:0,wins:0,trades:0,best:0,rank:0};
-let best=JSON.parse(localStorage.getItem('nq_best')||'{"bal":10000,"ret":-100}');
+let best=JSON.parse(localStorage.getItem('nq_best')||'{"bal":0,"ret":-100}');
 let G={on:false,day:null,i:0,t:0,price:0,cur:null,path:[],news:[],last:0,arrows:[]};
 let my2=0,formT=99,lastForm=0,mood='idle',moodT=0,shout='',shoutT=0,shake=0,critter=null,catX=-10,catF=0,frame=0,state='title',titleT=0,bellT=0;
 const fmt=v=>(v<0?'-':'')+'$'+Math.abs(Math.round(v)).toLocaleString();
@@ -187,9 +193,21 @@ function liquidate(){$('mut').className='';$('shout').style.display='none';const
 function bust(){if(state==='bust')return;G.on=false;state='bust';$('bustInfo').innerHTML='장중 파산...<br>'+pick(['깡통 찼다','한강 수온 몇도냐','개같이 멸망','아 ㅋㅋ 시드 증발','전재산 증발','마포대교 가는 버스 몇 번이지',...BUSTL])+'<br>최고 기록 '+fmt(best.bal)+' ('+(best.ret>=0?'+':'')+best.ret.toFixed(1)+'%)';show('bust');$('bust').classList.remove('hide')}
 function endDay(){$('mut').className='';if(S.pos)close('eod');G.on=false;state='bell';bellT=120;bell();save();$('bellTxt').style.display='block';
  setTimeout(()=>{$('bellTxt').style.display='none';if(S.bal<MINBET)return bust();const pnl=S.bal-S.dayStart;state='result';const ret=pnl/S.dayStart*100;const nb=S.bal>best.bal||ret>best.ret;if(S.bal>best.bal)best.bal=S.bal;if(ret>best.ret)best.ret=ret;localStorage.setItem('nq_best',JSON.stringify(best));
- $('rc').innerHTML=`<h3>최종 결과</h3><p>최종 잔고 <b>${fmt(S.bal)}</b></p><p>손익 <b class="${pnl>=0?'g':'r'}">${pnl>=0?'+':''}${fmt(pnl)}</b></p><p>수익률 <b class="${pnl>=0?'g':'r'}">${(pnl/S.dayStart*100).toFixed(2)}%</b></p><p>승률 <b>${S.trades?Math.round(S.wins/S.trades*100):0}% (${S.wins}/${S.trades})</b></p><p>최대 한방 <b class="g">${fmt(S.best)}</b></p><p>수수료 <b class="r">-${fmt(S.fees||0)}</b></p><p class="sm">도달 등급: ${RANKS[S.rank][1]}</p><p class="sm">${nb?'🏆 신기록! ':''}최고 기록 ${fmt(best.bal)} · ${best.ret>=0?'+':''}${best.ret.toFixed(1)}%</p>`;show('result');$('result').classList.remove('hide');if(pnl>0){burst(97,150,60,['Y','g','P','B'],3,60);coinSnd()}},2200)}
+ $('rc').innerHTML=`<h3>최종 결과</h3><p>최종 잔고 <b>${fmt(S.bal)}</b></p><p>손익 <b class="${pnl>=0?'g':'r'}">${pnl>=0?'+':''}${fmt(pnl)}</b></p><p>수익률 <b class="${pnl>=0?'g':'r'}">${(pnl/S.dayStart*100).toFixed(2)}%</b></p><p>승률 <b>${S.trades?Math.round(S.wins/S.trades*100):0}% (${S.wins}/${S.trades})</b></p><p>최대 한방 <b class="g">${fmt(S.best)}</b></p><p>수수료 <b class="r">-${fmt(S.fees||0)}</b></p><p class="sm">도달 등급: ${RANKS[S.rank][1]}</p><p class="sm">${nb?'🏆 신기록! ':''}최고 기록 ${fmt(best.bal)} · ${best.ret>=0?'+':''}${best.ret.toFixed(1)}%</p><div id="nkRow"><input id="nick" maxlength="10" placeholder="닉네임" value="${esc(localStorage.getItem('nq_nick')||'')}"><button id="nkGo" class="pbtn">등록</button></div><div id="lbBox"></div>`;LB.list().then(l=>$('lbBox').innerHTML=lbHTML(l));$('nkGo').onclick=()=>{$('nkRow').style.display='none';submitScore(S.bal,ret)};show('result');$('result').classList.remove('hide');if(pnl>0){burst(97,150,60,['Y','g','P','B'],3,60);coinSnd()}},2200)}
+
+// ---------- leaderboard (swap LB.backend for an online one later: same async API) ----------
+const LB={key:'nq_lb',backend:{
+  async list(){try{return JSON.parse(localStorage.getItem('nq_lb')||'[]')}catch(e){return[]}},
+  async submit(en){const l=await this.list();l.push(en);l.sort((a,b)=>b.bal-a.bal);const t=l.slice(0,10);localStorage.setItem('nq_lb',JSON.stringify(t));return t}},
+ list(){return this.backend.list()},submit(en){return this.backend.submit(en)}};
+const esc=s=>String(s).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
+const MED=['#f7e26b','#c2c3c7','#cd7f32'];
+function medal(i){return i<3?`<i class="med" style="--m:${MED[i]}">${i+1}</i>`:`<i class="med n">${i+1}</i>`}
+function lbHTML(l,hi){if(!l.length)return '<div class="lb"><b>랭킹</b><p class="sm">아직 기록 없음</p></div>';return '<div class="lb"><b>🏆 랭킹</b>'+l.map((e,i)=>`<div class="lr${i===hi?' me':''}">${medal(i)}<span class="nk">${esc(e.nick)}</span><span>${fmt(e.bal)}</span><span class="${e.ret>=0?'g':'r'}">${e.ret>=0?'+':''}${e.ret.toFixed(1)}%</span></div>`).join('')+'</div>'}
+async function showTitleLB(){$('lbT').innerHTML=lbHTML(await LB.list())}
+async function submitScore(bal,ret){const nick=($('nick').value.trim()||'원숭이').slice(0,10);localStorage.setItem('nq_nick',nick);const ts=Date.now();const l=await LB.submit({nick,bal:Math.round(bal),ret,ts});$('lbBox').innerHTML=lbHTML(l,l.findIndex(e=>e.ts===ts));showTitleLB()}
 // ---------- loop ----------
-const CANDLE=3000,GAMEN=40;let lastTs=0;
+const CANDLE=2000,GAMEN=60;let lastTs=0;
 function step(dt){if(!G.on)return;if(--mutT<=0){mutter();mutT=300+Math.random()*180|0}G.t+=dt;const c=G.day.c;const k=Math.min(30,(G.t/CANDLE*30)|0);const np=G.path[k];
  if(np!==G.price){const pe=$('price');pe.className=np>G.price?'up':'dn';}G.price=np;G.cur[3]=np;G.cur[1]=Math.max(G.cur[1],np);G.cur[2]=Math.min(G.cur[2],np);
  if(G.t>=CANDLE){G.t-=CANDLE;G.cur=[...c[G.i]];G.i++;{const v=c[G.i-1][4],pr=c.slice(Math.max(0,G.i-11),G.i-1);const av=pr.reduce((s,x)=>s+x[4],0)/(pr.length||1);if(pr.length>=5&&v>av*2.5&&!(G.whaleCd>0)){G.whale=1;G.whaleCd=12;sayM('고래형님 떴다 ㅋㅋㅋ');setNews('🐋 고래형님 떴다 ㅋㅋㅋ 거래량 폭발',true);snd(90,.4,'sine',.06,-30)}else G.whaleCd=(G.whaleCd||0)-1}
@@ -254,7 +272,7 @@ $('lev').onclick=()=>{S.lev=!S.lev;$('lev').classList.toggle('on',S.lev);snd(S.l
 $('long').onclick=()=>enter(1);$('short').onclick=()=>enter(-1);$('close').onclick=()=>close('');
 $('start').onclick=()=>{snd(660,.1);startDay()};$('next').onclick=()=>startDay();
 $('again').onclick=()=>startDay();
-$('bestT').innerHTML='최고 기록 '+fmt(best.bal)+' · '+(best.ret>=0?'+':'')+best.ret.toFixed(1)+'%';
+showTitleLB();$('bestT').innerHTML='최고 기록 '+fmt(best.bal)+' · '+(best.ret>=0?'+':'')+best.ret.toFixed(1)+'%';
 function fit(){const s=Math.min(innerWidth/390,innerHeight/844);$('root').style.transform=`scale(${s})`;$('root').style.left=((innerWidth-390*s)/2)+'px';}
 addEventListener('resize',fit);fit();show('title');$('title').classList.remove('hide');$('game').classList.add('hide');requestAnimationFrame(loop);
 window.__dbg={G,S:()=>S,endDay};

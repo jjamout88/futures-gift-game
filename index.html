@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"><title>바나나스닥 BANANASDAQ</title>
+<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"><title>퓨처스리그 FUTURES LEAGUE</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;user-select:none}
 html,body{width:100%;height:100%;overflow:hidden;background:#0d0e17;font-family:"DungGeunMo","Galmuri11","Press Start 2P",monospace;color:#f4f4f4}
@@ -79,8 +79,10 @@ canvas{image-rendering:pixelated;image-rendering:crisp-edges}
 .med{display:inline-block;width:16px;height:16px;line-height:16px;text-align:center;font-style:normal;font-size:10px;color:#1a1c2c;background:var(--m);box-shadow:0 -2px 0 #b13e53,0 2px 0 #000;clip-path:polygon(25% 0,75% 0,100% 25%,100% 75%,75% 100%,25% 100%,0 75%,0 25%)}.med.n{background:none;color:inherit;box-shadow:none}
 #nkRow{display:flex;gap:6px;justify-content:center;margin-top:6px}#nick{width:120px;font:inherit;font-size:14px;padding:4px;border:2px solid #1a1c2c}#nkGo{font-size:14px;padding:4px 10px}
 #lbT{position:absolute;left:25px;top:700px;width:340px;box-sizing:border-box;padding-right:6px;max-height:130px;overflow:auto;color:#f4f4f4;z-index:3}
+#rc{padding:14px 16px;width:330px}.rhead{text-align:center;font-size:14px;color:#566c86;letter-spacing:2px;margin-bottom:8px}.rtop{display:flex;gap:10px;align-items:center}#pcv{width:132px;height:132px;image-rendering:pixelated;border:4px solid #1a1c2c;flex:none}.rtt{flex:1;min-width:0}.tlab{font-size:11px;color:#566c86}.tname{font-size:22px;font-weight:bold;color:#1a1c2c;margin:4px 0;word-break:keep-all}.tsub{font-size:12px;color:#333c57;word-break:keep-all}.rbal{text-align:center;font-size:30px;font-weight:bold;margin-top:12px}.rret{text-align:center;font-size:24px;font-weight:bold}.rret span{display:block;font-size:13px}.rgrid{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin:10px 0 4px;border-top:3px dashed #ccc;padding-top:8px}.rgrid div{display:flex;justify-content:space-between;font-size:12px;padding:2px 4px}.rgrid i{font-style:normal;color:#566c86}#rc .sm{font-size:11px;text-align:center;display:block;margin:6px 0}
+#tbub{position:relative;margin-top:14px;background:#f4f4f4;color:#1a1c2c;font-size:20px;font-weight:bold;line-height:1.35;text-align:center;padding:10px 16px;border:4px solid #1a1c2c;box-shadow:0 0 0 4px #f4f4f4,6px 6px 0 4px #000;animation:tb 1s steps(2) infinite}#tbub:after{content:"";position:absolute;left:50%;bottom:-16px;margin-left:-8px;border:8px solid transparent;border-top-color:#1a1c2c}@keyframes tb{50%{transform:translateY(-3px)}}
 </style></head><body><div id="root"><div id="wrap">
-<div id="title" class="scr"><h1>🍌 바나나스닥</h1><div class="sub">🍌 BANANASDAQ 🍌</div><button id="start" class="pbtn">START</button><div id="bestT"></div><div id="lbT"></div></div>
+<div id="title" class="scr"><h1>🍌 퓨처스리그</h1><div class="sub">🐵 FUTURES LEAGUE 🐵</div><div id="tbub">🐵 나에게만 준비된<br>선물같아!</div><button id="start" class="pbtn">START</button><div id="bestT"></div><div id="lbT"></div></div>
 <div id="game" class="scr"><div id="news"><span>📰 장 시작 준비</span></div>
 <div id="hud"><div id="day" style="visibility:hidden">DAY 1</div><div id="timer"></div><div id="bal">$10,000</div><div id="pnl">포지션 없음</div><div id="rank">개미</div></div>
 <div id="chartBox"><canvas id="chart" width="180" height="180"></canvas><div id="price">0</div></div>
@@ -162,12 +164,33 @@ LW:['숏충이들아 정신이 좀 들어?','숏 녹았다 ㅋㅋ','숏스퀴즈
 LL:['롱 잡으니까 떨어지네','숏충이들 웃고 있겠지','불타기 간다','이건 세일이야','물타면 돼','오버나잇 가야 하나…','원래 오르기 전엔 떨어져','개미 털기 중이네','난 존버한다','아직 손실 확정 아님','바닥이 어디냐','이거 다 페이크야','눈 감으면 수익','물타기 각 재는 중','차트가 잠깐 삐졌어','계좌야 미안해','괜찮아 괜찮아…','앱을 지워야 하나','오늘은 운이 없었을 뿐','곧 반등한다 진짜로','물린 게 아니라 버티는 중이다','손절은 패배자의 것','바나나 값은 벌어야 하는데'],
 SW:['롱충이들아 정신이 좀 들어?','떡락 간다','개같이 떡락!','롱 녹았다 ㅋㅋ','세상아 망해라','버블이야 다 터져','폭락만이 살 길','어서 망해라 제발','대공황 와라','나만 돈 벌면 돼','떨어져라 더 떨어져','빨간 불이 아름답다','모두가 울 때 나는 웃지','폭락 기념 바나나 파티','공포 지수 최고야','종말이 오면 내가 부자','하락장의 왕 등장','롱충이들 미안해','중력은 거짓말 안 해','지하실 밑에 지하실','패닉 셀 땡큐','오늘의 메뉴: 폭락','버블 감별사 출근','이 세상 다 거품이야','내 숏은 지구 핵까지'],
 SL:['숏 잡으니까 오르네','숏 녹는다…','숏스퀴즈 당했다','롱충이들 웃고 있겠지','아직 안 끝났어','곧 떨어진다고','이건 데드캣 바운스야','마지막 발악이지','시장이 미쳤어','내가 맞고 시장이 틀렸어','조금만 더 버티면 돼','이건 조작이야','올라가 봤자야','곧 폭락 뉴스 뜬다','하락은 반드시 온다','어디까지 오르나 보자','숏은 인내의 예술','이건 함정이야','왜 안 떨어져…','하늘도 무심하시지','버블은 언젠가 터진다','내 숏 아직 살아있다','잠깐 숨 고르는 중','물타기 숏 간다'],
-ID:['연준 의장님 입만 봐라','연준 의장님 오늘 뭐라셔','CPI 날은 도박의 날','본장 시작이다','기관 형님들 뭐 하시나','세력 형님들 움직인다','차트는 거짓말 안 한다 (거짓말함)','곱버스 탈까','인버스 살까','레버리지 쓰다 레버리지에 쓰인다','롱돌이 될까 숏돌이 될까','뭐 잡지..','바나나 맛있다','차트 구경 중','오늘 뭐 먹지','타이밍 재는 중…','관망도 투자다','손이 근질근질','현금도 포지션이야','뉴스 좀 보자','심호흡 한 번','기다리는 자에게 복이','눈치 게임 중','바나나 껍질 조심','지금 들어가야 하나','폭풍 전야인가','아무것도 안 하면 안 잃지','커피 한 잔 할까','원숭이도 차트는 본다','오늘 운세 대박이랬는데','손가락 스트레칭 중']};
-const MLOSS=['아 ㅋㅋ 시드 증발', '한강 수온 몇도냐', '한강 갈 때가 됐다', '한강 뷰 예약 완료', '마포대교 가는 버스 몇 번이지', '한강 입수각', '깡통 찼다', '반토막 실화냐', '반의반토막…', '물렸다…', '물타기 간다', '존버는 승리한다', '손절은 과학이다…라던데', '손절 못 해서 강청 대기', '나락 가는 중', '내가 롱 잡으면 떨어지는 인간지표', '개미 털기 당하는 중', '개털 당했다', '전재산 넣었는데', '대출 풀매수였는데…', '샤갈!!', '씨발럼…', '이게 시발비용이냐', '좆됐다', '좆망각', '개같이 멸망 중'],MWIN=['푸근하다', '가즈아ㅏㅏ', '떡상 간다', '개같이 부활!', '익절은 항상 옳다', '퇴사각 나왔다', '경제적 자유 가즈아', '바나나스닥', '차트는 거짓말 안 한다'];['LL','SL'].forEach(k=>MUT[k].push(...MLOSS));['LW','SW'].forEach(k=>MUT[k].push(...MWIN));
+ID:['연준 의장님 입만 봐라','연준 의장님 오늘 뭐라셔','CPI 날은 도박의 날','본장 시작이다','기관 형님들 뭐 하시나','세력 형님들 움직인다','차트는 거짓말 안 한다 (거짓말함)','곱버스 탈까','인버스 살까','레버리지 쓰다 레버리지에 쓰인다','롱숭이 될까 숏숭이 될까','뭐 잡지..','바나나 맛있다','차트 구경 중','오늘 뭐 먹지','타이밍 재는 중…','관망도 투자다','손이 근질근질','현금도 포지션이야','뉴스 좀 보자','심호흡 한 번','기다리는 자에게 복이','눈치 게임 중','바나나 껍질 조심','지금 들어가야 하나','폭풍 전야인가','아무것도 안 하면 안 잃지','커피 한 잔 할까','원숭이도 차트는 본다','오늘 운세 대박이랬는데','손가락 스트레칭 중']};
+const MLOSS=['아 ㅋㅋ 시드 증발', '한강 수온 몇도냐', '한강 갈 때가 됐다', '한강 뷰 예약 완료', '마포대교 가는 버스 몇 번이지', '한강 입수각', '깡통 찼다', '반토막 실화냐', '반의반토막…', '물렸다…', '물타기 간다', '존버는 승리한다', '손절은 과학이다…라던데', '손절 못 해서 강청 대기', '나락 가는 중', '내가 롱 잡으면 떨어지는 인간지표', '개미 털기 당하는 중', '개털 당했다', '전재산 넣었는데', '대출 풀매수였는데…', '샤갈!!', '씨발럼…', '이게 시발비용이냐', '좆됐다', '좆망각', '개같이 멸망 중'],MWIN=['푸근하다', '가즈아ㅏㅏ', '떡상 간다', '개같이 부활!', '익절은 항상 옳다', '퇴사각 나왔다', '경제적 자유 가즈아', '퓨처스리그', '차트는 거짓말 안 한다'];['LL','SL'].forEach(k=>MUT[k].push(...MLOSS));['LW','SW'].forEach(k=>MUT[k].push(...MWIN));
 MUT.LW.push(...['오늘 무조건 롱이다!!', '풀롱 쳐 그냥!!!', '나스닥 롱 진입. 경례.', '미국 튼튼! 반대로 베팅하지 마라', '와 나스닥은 난공불락이냐 ㅋㅋㅋ', '신고가 찍으러 간다', '나스닥 뜨억상!', '킹스닥 가즈아!', '냅두면 오른대 ㅋㅋ',  '나스닥 악귀 숏충이 어디 갔냐']);MUT.LL.push(...['오늘 롱이면 좋겠다… 제발…', '오늘은 좀 올라야 하는 거 아니냐?', '기다려라, 희망을 가져라!', '나 본전 올 때까지 숨 참음', '존버 탄다', '나스닥 롱 승차감 구린데?', '납치당한 느낌인데…', 'N자로 처박네', '포지션 줄이다가 못 참고 다시 늘림']);MUT.SW.push(...['모든 자산을 숏에 베팅하라', '하락은 아직 시작도 안 했다니까 ㅋㅋㅋ', 'AI가 결국 가짜였구나 ㅋㅋㅋㅋ', '더 많이 떨어져라, 더 많이 울어라', '숏 또 준다고? 감사합니다', '지금 풀숏 때리면 집 산다', '롱숭이 ㅈ됐다 ㅋㅋ', '롱숭이들 빤스 좀 볼까 ㅋㅋ', '롱숭이들은 선물의 본질을 모름', '떨롱 맥여주니까 롱숭이들 미침', '이젠 좀 인정해라 ㅉ', '닷컴버블보다 상황 더 안 좋음']);MUT.SL.push(...['여기서 처박아야 하는데…', '오늘 왠지 또 폭락할 것 같지 않냐?', '아 오늘이 진짜 폭락할 듯', '나스닥 평생 횡보나 해라 ㅉㅉ', '차트가 위로 절대 못 갈 차트 같은데???', '납치당한 느낌인데…', 'AI 버블이 맞는 이유 알려줌']);MUT.LW.push(...['내 계좌 대폭등 ㅋㅋㅋ', '행복한 소식 전하러 왔습니다.', '와씨발 ㅋㅋㅋㅋㅋㅋㅋ', '이틀간 1000포인트 우습네', '내가 말했지?', '익절은 언제나 본절보다 낫다', '불타기 간다! 🔥', '마지막에 웃는 자가 범인이다', '올해 마이너스 4시간 정도 봤나?', ]);MUT.SW.push(...['내 계좌 대폭등 ㅋㅋㅋ', '행복한 소식 전하러 왔습니다.', '와씨발 ㅋㅋㅋㅋㅋㅋㅋ', '이틀간 1000포인트 우습네', '내가 말했지?', '익절은 언제나 본절보다 낫다', '불타기 간다! 🔥', '마지막에 웃는 자가 범인이다', '올해 마이너스 4시간 정도 봤나?', ]);MUT.LL.push(...['개 좆 됐 다 !!! 나 스 닥 !', '돈 백만 원 날아가서 계약 수 하나 줄었다', '오늘 백만 잃었다 흑', '참고로 오늘 납치되면…', '걍 포기다 시발', '꽃을 뽑고 잡초에 물 주기', '광기의 물타기 끝에 한강 정모', '물타다 계약 수만 늘었다', '설거지 당했다', '상투 잡았다', '털렸다… 팔자마자 오름', '아 어제 눈 딱 감고 샀으면…']);MUT.SL.push(...['개 좆 됐 다 !!! 나 스 닥 !', '돈 백만 원 날아가서 계약 수 하나 줄었다', '오늘 백만 잃었다 흑', '참고로 오늘 납치되면…', '걍 포기다 시발', '꽃을 뽑고 잡초에 물 주기', '광기의 물타기 끝에 한강 정모', '물타다 계약 수만 늘었다', '설거지 당했다', '상투 잡았다', '털렸다… 팔자마자 오름', '아 어제 눈 딱 감고 샀으면…']);MUT.ID.push(...['美 대통령 타코 떴다!!!', '타코오~?', '타코할 때 되긴 함', '월가 속보 ㄷㄷㄷㄷㄷ', '올려도 내려도 지랄', '다우가 말아주는~', '오늘은 다우 차례냐', '쮤끔쮤끔 내리다가 갑자기 쳐오르는 차트죠잉', '어제 저점 못 깨면 롱이지 ㅋ', '오늘은 콜 오브 듀티나 해야겠다', '다음 주에 월급날이다', '우주방어 들어간다', '무포 상태, 현금이 왕', '미붕이들 모여라']);const BUSTL=['-1.2억 확정 손실', '나스닥 선물로 1900만 원 날렸다.',  '경제적 자유 박탈 ㄷㄷㄷ', '외화 유출 현황.xlsx', '외화유출범 등장', '대출전사 2일 차 마무리', '얘들아… 삼천만 원도 큰돈 맞지?',  '진짜 다 끝난 새끼들.jpg', '롱충이들 ㄹㅇ ㅈ됐구나'];
 MUT.LL.push('어어..나선아..어디가니');MUT.SL.push('어어..나선아..어디가니');MUT.SW.push('롱충이들 희망차니?','롱충이들 이제 그냥 희망사항만 얘기하고 있네 ㅋㅋ');
 BUSTL.push('레버리지 풀로 땡기다 인생 망했으면 개추 ㅋㅋㅋ');MUT.LW.push('오늘 나스닥 오른다고 생각하면 개추','롱이 진리라고 생각하면 개추','익절하고 치킨 시킨 사람 개추');MUT.SW.push('세상 망했으면 좋겠는 사람 개추','익절하고 치킨 시킨 사람 개추');MUT.LL.push('나만 롱 물렸으면 개추');MUT.SL.push('숏 치다가 한강 간 사람 개추');
 MUT.LW.push('롱이라고 했제 ㅋㅋㅋㅋ','떡상 온다 했제','내가 뭐랬제 ㅋㅋ','반등 온다 했제','나스닥은 오른다 했제');MUT.SW.push('숏이라고 했제 ㅋㅋㅋㅋ','떡락 온다 했제','내가 뭐랬제 ㅋㅋ','거품이라 했제','지하실 간다 했제');
+const TITLES=[[-50,'한강 수영선수','물온도 체크 완료… 수영복 챙겨라','swim'],[-10,'물린 개미','물타다 계약 수만 늘었다','cry'],[0,'개미','수수료 기부 감사합니다','sweat'],[5,'단타충','티끌 모아 티끌','band'],[20,'스캘퍼','손이 눈보다 빠르다','shade'],[100,'고래','고래형님 떴다 ㅋㅋㅋ','whale'],[1e9,'월가의 늑대','바나나 법인카드 개통','wolf']];
+const titleOf=r=>TITLES.find(t=>r<t[0])||TITLES[TITLES.length-1];
+function drawPortrait(cv,kind){const c=cv.getContext('2d');c.imageSmoothingEnabled=false;c.clearRect(0,0,cv.width,cv.height);const sc=6,ox=6,oy=8;
+ const bg={swim:'#3b5dc9',cry:'#566c86',sweat:'#333c57',band:'#b13e53',shade:'#38b764',whale:'#41a6f6',wolf:'#1a1c2c'}[kind];c.fillStyle=bg;c.fillRect(0,0,cv.width,cv.height);
+ const R=(x,y,w,h,k)=>{c.fillStyle=PAL[k]||k;c.fillRect((ox+x)*sc,(oy+y)*sc,w*sc,h*sc)};
+ if(kind==='wolf'){c.fillStyle='#f7e26b';for(let i=0;i<14;i++)c.fillRect((i*37)%cv.width,(i*53)%cv.height,4,4)}
+ if(kind==='whale'){for(let i=0;i<6;i++){R(-6+i*5,17,3,1,'c')}}
+ const fm={swim:'panic',cry:'sad',sweat:'idle',band:'idle',shade:'happy',whale:'happy',wolf:'happy'}[kind];
+ const Bd=fm==='happy'?bodyUp:body;draw(c,spr(face[fm]),(ox)*sc,(oy)*sc,sc);draw(c,spr(Bd),ox*sc,(oy+7)*sc,sc);
+ if(kind==='swim'){R(-6,10,22,4,'B');R(-6,10,22,1,'c');R(2,3,2,1,'c');R(6,3,2,1,'c');R(1,3,7,0.4,'k');R(12,-4,1,3,'w');R(12,0,1,1,'w')}
+ if(kind==='cry'){R(2,4,1,4,'B');R(7,4,1,4,'B');R(2,8,1,1,'c');R(7,8,1,1,'c')}
+ if(kind==='sweat'){R(10,1,1,2,'c');R(10,3,1,1,'B');R(-2,-3,3,2,'Y')}
+ if(kind==='band'){R(1,1,8,1,'r');R(9,1,2,1,'r');R(10,2,1,2,'r');R(4,1,2,1,'w')}
+ if(kind==='shade'){R(1,3,3,1,'k');R(6,3,3,1,'k');R(4,3,2,1,'k');R(2,3,1,1,'G');R(7,3,1,1,'G');R(10,9,3,1,'Y');R(11,8,2,1,'Y')}
+ if(kind==='whale'){R(1,-3,8,3,'b');R(2,-4,6,1,'b');R(3,-2,1,1,'w');R(8,-5,1,2,'c');R(7,-6,1,1,'c');R(9,-6,1,1,'c')}
+ if(kind==='wolf'){R(1,-3,8,3,'k');R(0,0,10,1,'k');R(3,7,4,3,'w');R(4,7,2,4,'r');R(2,7,1,3,'k');R(7,7,1,3,'k');R(8,5,3,1,'p');R(11,5,1,1,'o');R(-3,8,3,2,'g');R(-3,8,3,0.4,'Y')}
+}
+
+MUT.ID.push('나는 바나나 알러지 원숭이');
+MUT.LL.push('비싸게 사서 싸게 팔기');MUT.SL.push('싸게 팔아서 비싸게 사기');
+MUT.LL.push('나스닥은 신이고 나는 병신이다');MUT.SL.push('나스닥은 신이고 나는 병신이다');
 let lastM='';function pickNR(a){let s,n=0;do{s=pick(a)}while(s===lastM&&n++<9&&a.length>1);return lastM=s}
 function sayM(t){const e=$('mut');lastM=t;e.textContent=t;e.className='';void e.offsetWidth;e.className='show';clearTimeout(e._t);e._t=setTimeout(()=>e.className='',2800)}
 let mutT=180;function mutter(){if(!G.on)return;let k='ID';if(S.pos){const w=upnl()>=0;k=(S.pos.dir>0?'L':'S')+(w?'W':'L')}const e=$('mut');const HOT={LW:['푸근하다','숏충이들아 정신이 좀 들어?'],SW:['푸근하다','롱충이들아 정신이 좀 들어?'],LL:['한강 물온도 체크','(진짜모름) 이거 환불 안돼요?'],SL:['한강 물온도 체크','(진짜모름) 이거 환불 안돼요?']};const mv=S.pos?(G.price-G.cur[0])*S.pos.dir:0;const yc=S.pos&&S.pos.dir>0?'영차영차!':'영차영차 끌어내려!';const z=(mv>0&&lastM!==yc&&Math.random()<.45)?(S.pos.dir>0?'영차영차!':'영차영차 끌어내려!'):(HOT[k]&&Math.random()<.4)?pickNR(HOT[k]):pickNR(MUT[k]);lastM=z;e.textContent=z;e.className='';void e.offsetWidth;e.className='show';clearTimeout(e._t);e._t=setTimeout(()=>e.className='',2800)}
@@ -197,7 +220,7 @@ function liquidate(){$('mut').className='';$('shout').style.display='none';const
 function bust(){if(state==='bust')return;G.on=false;state='bust';$('bustInfo').innerHTML='장중 파산...<br>'+pick(['깡통 찼다','한강 수온 몇도냐','개같이 멸망','아 ㅋㅋ 시드 증발','전재산 증발','마포대교 가는 버스 몇 번이지',...BUSTL])+'<br>최고 기록 '+fmt(best.bal)+' ('+(best.ret>=0?'+':'')+best.ret.toFixed(1)+'%)';show('bust');$('bust').classList.remove('hide')}
 function endDay(){$('mut').className='';if(S.pos)close('eod');G.on=false;state='bell';bellT=120;bell();save();$('bellTxt').style.display='block';
  setTimeout(()=>{$('bellTxt').style.display='none';if(S.bal<MINBET)return bust();const pnl=S.bal-S.dayStart;state='result';const ret=pnl/S.dayStart*100;const nb=S.bal>best.bal||ret>best.ret;if(S.bal>best.bal)best.bal=S.bal;if(ret>best.ret)best.ret=ret;localStorage.setItem('nq_best',JSON.stringify(best));
- $('rc').innerHTML=`<h3>최종 결과</h3><p>최종 잔고 <b>${fmt(S.bal)}</b></p><p>손익 <b class="${pnl>=0?'g':'r'}">${pnl>=0?'+':''}${fmt(pnl)}</b></p><p>수익률 <b class="${pnl>=0?'g':'r'}">${(pnl/S.dayStart*100).toFixed(2)}%</b></p><p>승률 <b>${S.trades?Math.round(S.wins/S.trades*100):0}% (${S.wins}/${S.trades})</b></p><p>최대 한방 <b class="g">${fmt(S.best)}</b></p><p>수수료 <b class="r">-${fmt(S.fees||0)}</b></p><p class="sm">도달 등급: ${RANKS[S.rank][1]}</p><p class="sm">${nb?'🏆 신기록! ':''}최고 기록 ${fmt(best.bal)} · ${best.ret>=0?'+':''}${best.ret.toFixed(1)}%</p><div id="nkRow"><input id="nick" maxlength="10" placeholder="닉네임" value="${esc(localStorage.getItem('nq_nick')||'')}"><button id="nkGo" class="pbtn">등록</button></div><div id="lbBox"></div>`;LB.list().then(l=>$('lbBox').innerHTML=lbHTML(l));$('nkGo').onclick=()=>{$('nkRow').style.display='none';submitScore(S.bal,ret)};show('result');$('result').classList.remove('hide');if(pnl>0){burst(97,150,60,['Y','g','P','B'],3,60);coinSnd()}},2200)}
+ const tt=titleOf(ret),cl=pnl>=0?'g':'r',wr=S.trades?Math.round(S.wins/S.trades*100):0;$('rc').innerHTML=`<div class="rhead">퓨처스리그 · 장 마감 결과</div><div class="rtop"><canvas id="pcv" width="132" height="132"></canvas><div class="rtt"><div class="tlab">오늘의 칭호</div><div class="tname">${tt[1]}</div><div class="tsub">${tt[2]}</div></div></div><div class="rbal">${fmt(S.bal)}</div><div class="rret ${cl}">${ret>=0?'+':''}${ret.toFixed(2)}%<span>${pnl>=0?'+':''}${fmt(pnl)}</span></div><div class="rgrid"><div><i>거래</i><b>${S.trades}</b></div><div><i>승률</i><b>${wr}%</b></div><div><i>최대 한방</i><b class="g">${fmt(S.best)}</b></div><div><i>수수료</i><b class="r">-${fmt(S.fees||0)}</b></div></div><p class="sm">도달 등급 ${RANKS[S.rank][1]} · ${nb?'🏆 신기록! ':''}최고 ${fmt(best.bal)} (${best.ret>=0?'+':''}${best.ret.toFixed(1)}%)</p><div id="nkRow"><input id="nick" maxlength="10" placeholder="닉네임" value="${esc(localStorage.getItem('nq_nick')||'')}"><button id="nkGo" class="pbtn">등록</button></div><div id="lbBox"></div>`;LB.list().then(l=>$('lbBox').innerHTML=lbHTML(l));drawPortrait($('pcv'),tt[3]);$('nkGo').onclick=()=>{$('nkRow').style.display='none';submitScore(S.bal,ret)};show('result');$('result').classList.remove('hide');if(pnl>0){burst(97,150,60,['Y','g','P','B'],3,60);coinSnd()}},2200)}
 
 // ---------- leaderboard (swap LB.backend for an online one later: same async API) ----------
 const LB={key:'nq_lb',backend:{
@@ -245,12 +268,12 @@ function drawFx(){fc.clearRect(0,0,W,H);frame++;const bob=Math.sin(frame/10)>0?0
   // falling banana rain
   if(frame%14===0)BR.push({x:Math.random()*W,y:-10,v:.4+Math.random()*.5,f:Math.random()<.5});
   for(let k=BR.length-1;k>=0;k--){const b=BR[k];b.y+=b.v;draw(fc,BAN,b.x,b.y,1,b.f);if(b.y>H)BR.splice(k,1)}
-  draw(fc,cat[(frame/10|0)%2],(catX=(catX+.4)%(W+20))-10,395,2);}
+  }
  else{ // mascot
   if(moodT>0)moodT--;else if(mood!=='idle'){mood='idle'}
   let m=mood;if(S.pos&&m==='idle'){const r=-upnl()/S.pos.bet;if(r>.4)m='sad';else if(r<-.2)m='happy'}
   const mx=14,my=260+(m==='happy'?(frame%12<6?-3:0):bob);fc.save();if(m==='faint'){fc.translate(mx+16,my+20);fc.rotate(1.4);fc.translate(-mx-16,-my-20)}
-  const fm=S.pos?S.pos.dir:0;if(fm!==lastForm){lastForm=fm;formT=0;const nt=$('ntag');nt.className=fm>0?'L':fm<0?'S':'';nt.textContent=fm>0?'롱돌이':fm<0?'숏돌이':'';if(state==='play'){if(fm<0){const dm=$('dim');dm.className='';void dm.offsetWidth;dm.className='on'}else if(!fm)burst(mx+15,my+20,25,['w','G'],1.5,20,0,2)}}formT++;
+  const fm=S.pos?S.pos.dir:0;if(fm!==lastForm){lastForm=fm;formT=0;const nt=$('ntag');nt.className=fm>0?'L':fm<0?'S':'';nt.textContent=fm>0?'롱숭이':fm<0?'숏숭이':'';if(state==='play'){if(fm<0){const dm=$('dim');dm.className='';void dm.offsetWidth;dm.className='on'}else if(!fm)burst(mx+15,my+20,25,['w','G'],1.5,20,0,2)}}formT++;
   let F=face[m],Bd=m==='happy'?bodyUp:body;
   if(fm>0){const land=formT>=18;Bd=Bd.map(r=>r.replace(/s/g,'Y').replace(/n/g,'r'));if(land)F=F.map((r,j)=>j===1?'.rrrrrrrr.':(j===3&&m!=='faint'&&m!=='sad'?'snkkkkkkns':r));
    if(!land){const fy=my+3-(18-formT)*5;draw(fc,spr(['.rrrrrrrr.','snkkkkkkns']),mx,fy,3)}if(formT===18){burst(mx+15,my+5,30,['Y','w','p'],2,25,0,1);snd(1568,.08,'square',.05)}if(formT>18&&formT<26)my2=-((26-formT)%4)}
@@ -267,7 +290,7 @@ function drawFx(){fc.clearRect(0,0,W,H);frame++;const bob=Math.sin(frame/10)>0?0
   // critter
   if(critter){critter.f++;const sp=critter.t==='bull'?2:-2;critter.x+=sp;const fr=(critter.f/5|0)%2;const sp2=critter.t==='bull'?(fr?bull2:bull):(fr?bear2:bear);draw(fc,sp2,critter.x,232,2,critter.t==='bear');if(critter.f%4===0)P.push({x:critter.x+(sp>0?0:24),y:246,vx:-sp*.3,vy:-.3,l:15,c:'G',g:0,s:1});if(critter.x<-30||critter.x>W+30)critter=null}
   // cat walking on ticker bar bottom of chart
-  catX+=.25;if(catX>W+10)catX=-20;draw(fc,cat[(frame/12|0)%2],catX,268,2);
+  
   if(S.combo>=3&&frame%3===0)P.push({x:97+(Math.random()-.5)*60,y:290,vx:(Math.random()-.5)*.4,vy:-.8-Math.random(),l:25,c:pick(['o','Y','r']),g:-.01,s:1});
   if(state==='bell'){bellT--;const a=Math.sin(frame/3)*.5;fc.save();fc.translate(97,150);fc.rotate(a);draw(fc,bellS,-14,-4,4);fc.restore();if(frame%5===0)burst(97,170,3,['Y','w'],1.5,20,0)}
  }
@@ -287,6 +310,6 @@ $('again').onclick=()=>startDay();
 showTitleLB();$('bestT').innerHTML=best.bal<=0?'최고 기록 없음':'최고 기록 '+fmt(best.bal)+' · '+(best.ret>=0?'+':'')+best.ret.toFixed(1)+'%';
 function fit(){const s=Math.min(innerWidth/390,innerHeight/844);$('root').style.transform=`scale(${s})`;$('root').style.left=((innerWidth-390*s)/2)+'px';}
 addEventListener('resize',fit);fit();show('title');$('title').classList.remove('hide');$('game').classList.add('hide');requestAnimationFrame(loop);
-window.__dbg={G,S:()=>S,endDay};
+window.__dbg={drawPortrait,TITLES,G,S:()=>S,endDay};
 })();
 </script></body></html>

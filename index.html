@@ -188,19 +188,19 @@ const TITLES=[
 [-5,'존버 원숭이','본전 오면 판다 (안 옴)','hold'],
 [0,'개미','수수료 기부 감사합니다','sweat'],
 [5,'단타충','티끌 모아 티끌','band'],
-[15,'바나나 줍줍러','오늘 바나나 값은 벌었다','pick'],
+[15,'치킨값 사냥꾼','오늘 치킨은 내가 쏜다','pick'],
 [30,'스캘퍼','손이 눈보다 빠르다','shade'],
 [60,'차트 무당','캔들이 말을 걸어온다','shaman'],
 [100,'익절 장인','팔고 나서 차트 안 봄','chef'],
 [200,'고래','고래형님 떴다 ㅋㅋㅋ','whale'],
-[400,'바나나 재벌','바나나 농장 세 개 보유 중','rich'],
-[700,'월가의 원숭이','바나나 법인카드 개통','wolf'],
+[400,'강남 건물주','월세 받으러 간다','rich'],
+[700,'월가의 원숭이','법인카드 한도 무제한','wolf'],
 [1000,'나스닥 주인','지수가 내 기분 따라 움직임','crown'],
-[2000,'금바나나 황제','황금 바나나로 이빨 쑤심','gold'],
-[3000,'바나나 중앙은행 총재','금리는 바나나 시세로 결정한다','fed'],
+[2000,'연준 학살자','금리는 내가 정한다','gold'],
+[3000,'헤지펀드 회장님','월가가 내 눈치 본다','fed'],
 [5000,'화성행 로켓숭이','달은 경유지일 뿐','rocket'],
-[10000,'원숭이 행성 정복자','인류는 이제 우리 바나나 농장','planet'],
-[1e12,'우주 바나나 신','빅뱅도 롱 쳤다','god']];
+[10000,'원숭이 행성 정복자','인류는 이제 우리 동물원 관람객','planet'],
+[1e12,'인간 서킷브레이커','내가 들어가면 거래가 멈춘다','god']];
 const titleOf=r=>TITLES.find(t=>r<t[0])||TITLES[TITLES.length-1];
 const SPECIALS=[
  ['무포 현자','안 사면 안 잃는다','sage',s=>s.trades===0],
@@ -220,12 +220,12 @@ function drawPortrait(cv,kind){const c=cv.getContext('2d');c.imageSmoothingEnabl
  const banana=(x,y,k='Y')=>{R(x,y+1,1,2,k);R(x+1,y+3,2,1,k);R(x+3,y+2,1,1,k);R(x,y,1,1,'N')};
  const crown=(x,y,k,gem)=>{R(x,y+1,8,2,k);R(x,y,1,1,k);R(x+2,y-1,1,2,k);R(x+4,y-1,1,2,k);R(x+7,y,1,1,k);R(x+3,y+1,2,1,gem||'r')};
  if(['wolf','crown','fed'].includes(kind))stars(14,'#f7e26b');
- if(kind==='gold'){stars(30,'#ffd700');c.fillStyle='rgba(255,215,0,.25)';c.fillRect(0,0,W,H)}
+ if(kind==='gold'){for(let i=0;i<8;i++){c.fillStyle=i%2?'#ff4d2e':'#ffa300';c.fillRect(i*17,H-18-(i*13%14),12,30)}c.fillStyle='rgba(255,77,46,.18)';c.fillRect(0,0,W,H)}
  if(kind==='rocket'){stars(30,'#fff');}
  if(kind==='planet'){stars(26,'#fff');c.fillStyle='#b13e53';c.beginPath();c.arc(W-22,26,20,0,7);c.fill();c.fillStyle='#ef7d57';c.fillRect(W-50,24,56,4)}
- if(kind==='god'){for(let i=0;i<7;i++){c.fillStyle=['#ff004d','#ffa300','#ffec27','#00e436','#29adff','#83769c','#ff77a8'][i];c.fillRect(0,i*H/7,W,H/7)}c.fillStyle='rgba(0,0,0,.35)';c.fillRect(0,0,W,H);stars(24,'#fff')}
+ if(kind==='god'){c.fillStyle='#0b0d2a';c.fillRect(0,0,W,H);stars(30,'#fff');c.fillStyle='rgba(255,236,39,.28)';c.beginPath();c.arc(W/2,H/2,60,0,7);c.fill()}
  if(kind==='whale'){for(let i=0;i<6;i++){R(-6+i*5,17,3,1,'c')}}
- if(kind==='pick'||kind==='rich'){for(let i=0;i<5;i++)banana(-5+i*5,16,kind==='rich'?'o':'Y')}
+ if(kind==='rich'){for(let i=0;i<4;i++){c.fillStyle=['#566c86','#333c57','#41a6f6','#566c86'][i];const bh=40+i*17%50;c.fillRect(i*34,H-bh,26,bh);c.fillStyle='#f7e26b';for(let y=H-bh+6;y<H-6;y+=10)c.fillRect(i*34+6,y,4,4),c.fillRect(i*34+16,y,4,4)}}
  const fm={swim:'panic',can:'sad',cry:'sad',hold:'idle',sweat:'idle',band:'idle',liq:'panic',angel:'idle',sage:'idle',gukbap:'happy',machine:'idle'}[kind]||'happy';
  const Bd=fm==='happy'?bodyUp:body;draw(c,spr(face[fm]),(ox)*sc,(oy)*sc,sc);draw(c,spr(Bd),ox*sc,(oy+7)*sc,sc);
  switch(kind){
@@ -235,19 +235,19 @@ function drawPortrait(cv,kind){const c=cv.getContext('2d');c.imageSmoothingEnabl
  case'hold':R(-3,8,3,3,'c');R(-2,7,1,1,'w');R(10,1,1,2,'c');R(1,-2,8,1,'b');break;
  case'sweat':R(10,1,1,2,'c');R(10,3,1,1,'B');R(-2,-3,3,2,'Y');break;
  case'band':R(1,1,8,1,'r');R(9,1,2,1,'r');R(10,2,1,2,'r');R(4,1,2,1,'w');break;
- case'pick':banana(10,6);R(0,-2,10,1,'g');R(2,-3,6,1,'g');break;
+ case'pick':R(10,5,3,3,'o');R(11,4,2,1,'p');R(12,8,1,2,'w');R(12,10,2,1,'w');R(-4,9,4,3,'r');R(-4,9,4,1,'w');R(-3,10,2,1,'w');break;
  case'shade':R(1,3,3,1,'k');R(6,3,3,1,'k');R(4,3,2,1,'k');R(2,3,1,1,'G');R(7,3,1,1,'G');R(10,9,3,1,'Y');R(11,8,2,1,'Y');break;
  case'shaman':R(0,-1,10,1,'#7b3fa0');R(2,-3,6,2,'#7b3fa0');R(4,-5,2,2,'#7b3fa0');R(4,-3,2,1,'Y');R(-4,9,4,4,'c');R(-3,10,2,2,'w');break;
  case'chef':R(1,-1,8,1,'w');R(0,-4,10,3,'w');R(2,-5,2,1,'w');R(6,-5,2,1,'w');R(10,7,1,5,'G');R(10,6,1,1,'w');break;
  case'whale':R(1,-3,8,3,'b');R(2,-4,6,1,'b');R(3,-2,1,1,'w');R(8,-5,1,2,'c');R(7,-6,1,1,'c');R(9,-6,1,1,'c');break;
- case'rich':R(2,-4,6,4,'k');R(0,0,10,1,'k');R(2,-1,6,1,'r');R(2,7,6,1,'Y');R(4,8,2,1,'Y');R(-4,8,4,2,'g');R(-4,8,4,0.4,'Y');R(10,8,4,2,'g');break;
+ case'rich':R(1,3,3,1,'k');R(6,3,3,1,'k');R(4,3,2,1,'k');R(2,7,6,1,'Y');R(10,7,3,3,'Y');R(11,8,1,1,'k');R(11,10,1,4,'Y');R(12,12,1,1,'Y');R(12,13,1,1,'Y');break;
  case'wolf':R(1,-3,8,3,'k');R(0,0,10,1,'k');R(3,7,4,3,'w');R(4,7,2,4,'r');R(2,7,1,3,'k');R(7,7,1,3,'k');R(8,5,3,1,'p');R(11,5,1,1,'o');R(-3,8,3,2,'g');R(-3,8,3,0.4,'Y');break;
  case'crown':crown(1,-3,'Y','r');R(-1,7,1,7,'r');R(10,7,1,7,'r');R(2,7,6,1,'Y');break;
- case'gold':crown(1,-3,'#ffd700','c');R(2,-3,1,1,'B');R(6,-3,1,1,'g');banana(10,4,'#ffd700');R(13,3,1,8,'#ffd700');R(2,7,6,2,'#ffd700');R(1,3,3,1,'k');R(6,3,3,1,'k');R(4,3,2,1,'k');break;
- case'fed':R(1,3,3,1,'w');R(6,3,3,1,'w');R(4,3,2,1,'w');R(2,7,6,6,'k');R(4,7,2,2,'w');R(11,5,4,2,'n');R(12,7,1,4,'N');R(-5,11,5,2,'N');break;
+ case'gold':R(1,3,3,1,'k');R(6,3,3,1,'k');R(4,3,2,1,'k');R(2,3,1,1,'r');R(7,3,1,1,'r');R(2,7,6,6,'k');R(4,7,2,3,'w');R(4,8,2,2,'r');R(10,3,5,3,'n');R(10,3,5,1,'N');R(12,6,1,6,'N');R(-5,9,4,4,'g');R(-4,10,2,2,'Y');R(-5,6,1,3,'o');R(-3,5,1,4,'o');R(-1,6,1,3,'o');R(-4,7,1,2,'Y');R(-2,6,1,2,'Y');break;
+ case'fed':R(2,-4,6,4,'k');R(0,0,10,1,'k');R(6,3,3,1,'Y');R(7,3,1,1,'c');R(8,4,1,3,'Y');R(2,7,6,6,'d');R(4,7,2,3,'w');R(4,8,2,2,'b');R(8,5,3,1,'p');R(11,5,1,1,'o');R(-5,10,5,4,'N');R(-4,9,3,1,'N');R(-3,11,1,1,'Y');break;
  case'rocket':c.fillStyle='rgba(115,239,247,.35)';c.fillRect((ox-1)*sc,(oy-2)*sc,12*sc,10*sc);R(-1,-2,12,1,'w');R(11,0,4,8,'w');R(12,-2,2,2,'r');R(11,8,1,2,'r');R(14,8,1,2,'r');R(12,10,2,2,'o');R(12,12,2,1,'Y');break;
  case'planet':crown(1,-3,'Y','r');R(-3,0,1,12,'w');R(-2,0,5,3,'Y');R(-1,1,2,1,'r');break;
- case'god':R(0,-4,10,1,'Y');R(-1,-3,1,1,'Y');R(10,-3,1,1,'Y');crown(1,-2,'#ffd700','P');banana(-5,6,'#ffd700');banana(11,6,'#ffd700');R(2,7,6,1,'c');break;
+ case'god':R(0,-5,10,1,'Y');R(-1,-4,1,1,'Y');R(10,-4,1,1,'Y');R(3,-3,4,3,'#ff2020');R(4,-3,1,1,'w');R(2,0,6,1,'G');c.fillStyle='rgba(255,32,32,.35)';c.fillRect((ox-3)*sc,(oy-5)*sc,16*sc,6*sc);R(11,3,5,5,'#d81b1b');R(12,2,3,1,'#d81b1b');R(12,8,3,1,'#d81b1b');R(10,4,1,3,'#d81b1b');R(16,4,1,3,'#d81b1b');R(11,5,6,1,'w');R(13,9,1,5,'G');break;
  case'sage':R(1,3,3,1,'k');R(6,3,3,1,'k');R(2,6,6,4,'w');R(-4,10,4,3,'w');R(-3,9,2,1,'c');break;
  case'liq':R(-6,-4,22,1,'r');R(-6,14,22,1,'r');R(1,-3,8,2,'r');R(3,-3,4,1,'w');R(2,4,1,3,'B');R(7,4,1,3,'B');break;
  case'oneshot':R(1,-3,8,3,'#ef7d57');R(10,4,3,3,'k');R(13,5,3,1,'k');R(16,4,1,1,'Y');R(17,3,1,1,'o');break;

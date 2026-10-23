@@ -441,10 +441,9 @@ rows.forEach((r,i)=>{const y=610+i*58;c.textAlign='left';tx(r[0],76,y,24,'#c8cce
 c.textAlign='center';tx('너도 2분 NQ 단타 ㄱㄱ',W/2,830,22,'#f4f4f4',0);tx(GURL.replace('https://',''),W/2,866,13,'#f7d354',0);
 return new Promise(r=>cv.toBlob(r,'image/png'))}
 async function shareCard(){const d=window.__shr;let b;try{b=await makeShare()}catch(e){toast('이미지 생성 실패');return}window.__shareBlob=b;
-const txt=`나 바나나스닥에서 ${d.ret>=0?'+':''}${d.ret.toFixed(1)}% 찍음 🍌 칭호: ${d.tt[1]} · 최고 ${d.combo}콤보`,f=new File([b],'bananasdaq.png',{type:'image/png'});
-if(navigator.canShare&&navigator.canShare({files:[f]})){try{await navigator.share({files:[f],text:txt,url:GURL})}catch(e){}return}
-const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='bananasdaq.png';document.body.appendChild(a);a.click();a.remove();
-try{await navigator.clipboard.writeText(txt+' '+GURL);toast('이미지 저장 + 링크 복사 완료!')}catch(e){toast('이미지 저장 완료! 링크: '+GURL)}}
+const f=new File([b],'bananasdaq.png',{type:'image/png'});
+if(navigator.canShare&&navigator.canShare({files:[f]})){try{await navigator.share({files:[f]})}catch(e){}return}
+const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='bananasdaq.png';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000);toast('이미지 저장 완료!')}
 
 
 const SPC=['거래 0회','청산 2회 이상 · 수익률 100% 미만','거래 1회 · 수익률 50% 이상','수익 난 한 포지션 40봉 이상 보유','손실 난 한 포지션 30봉 이상 보유 · 수익률 100% 미만','마진콜 발생 후 최종 수익 · 수익률 0% 초과','거래 5회 이상 · 승률 0% · 수익률 100% 미만','거래 4회 이상 · 승률 35% 이하 · 수익률 50~1000%','거래 5회 이상 · 승률 80% 이상 · 수익률 0~15%','거래 3회 이상 · 수수료 ≥ 수수료 전 이익 · 수익률 100% 미만','거래 40회 이상 · 수익률 100% 미만','거래 25~39회 · 수익률 100% 미만','거래 3회 이상 전부 LONG · 수익률 100% 미만','거래 3회 이상 전부 SHORT · 수익률 100% 미만'];

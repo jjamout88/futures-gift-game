@@ -38,7 +38,7 @@ canvas{image-rendering:pixelated;image-rendering:crisp-edges}
 @keyframes levf{0%{background:#b13e53}50%{background:#ff8c1a}}
 #bets button.sel{background:#f7e26b;color:#1a1c2c}
 #acts{display:flex;gap:8px;width:370px}
-#acts button{height:96px;font-size:22px;flex:1}#long{background:#d83a3a}#short{background:#2f6fd0}#close{background:#566c86}
+#acts button{height:120px;font-size:22px;flex:1}#long{background:#d83a3a}#short{background:#2f6fd0}#close{background:#566c86}
 #shout{position:absolute;top:260px;left:0;right:0;text-align:center;font-size:58px;font-weight:900;color:#fff;-webkit-text-stroke:3px #1a1c2c;text-shadow:5px 5px 0 #1a1c2c,-3px -3px 0 #1a1c2c,3px -3px 0 #1a1c2c,-3px 3px 0 #1a1c2c,8px 8px 0 #b13e53;display:none;z-index:6;pointer-events:none;white-space:nowrap;letter-spacing:-1px}
 #shout.go{animation:spop .9s forwards}#shout.L{color:#ff6b6b}#shout.S{color:#6bb0ff}#shout.Y{color:#f7e26b}
 #shout:before{content:"";position:absolute;left:-10px;right:-10px;top:10%;bottom:10%;background:#fff;z-index:-1;animation:sfl .25s forwards}
@@ -111,14 +111,14 @@ canvas{image-rendering:pixelated;image-rendering:crisp-edges}
 #acts.haspos #close{background:#38b764;filter:none;box-shadow:0 0 0 3px #a7f070;pointer-events:auto}
 #acts.haspos #long,#acts.haspos #short{background:#5a5a66!important;filter:grayscale(1) brightness(.7);pointer-events:none}
 #acts.haspos #close.loss{background:#b8574a;box-shadow:0 0 0 3px #e8a08a}
-#cbB{position:absolute;left:8px;bottom:2px;font-size:12px;color:#ff8c1a;display:none}#cbB.on{display:block}
+#cbB{width:370px;max-width:94vw;box-sizing:border-box;height:44px;line-height:40px;text-align:center;font-size:15px;letter-spacing:-1px;color:#8a8fa8;background:#1a1c2c;border:2px solid #333c57;white-space:nowrap;overflow:hidden}#cbB.on{color:#fff;background:#5d1a1a;border-color:#ff8c1a;box-shadow:0 0 8px #ff8c1a}#cbB b{color:#f7e26b}
 </style></head><body><div id="root"><div id="wrap">
 <button id="cfgB" class="pbtn">⚙️</button><div id="cfg" class="hide"><div id="cfgP"><h3>⚙️ 설정</h3><div class="cr"><span>🎵 배경음악</span><button id="tgB" class="tg"></button></div><div class="cr"><span>🔉 BGM 볼륨</span><span id="vlT"></span></div><input type="range" id="vol" min="0" max="100"><div class="cr"><span>🔔 효과음</span><button id="tgS" class="tg"></button></div><button id="cfgX" class="pbtn">닫기</button></div></div><div id="title" class="scr"><h1>🍌 바나나스닥</h1><div class="sub">🍌 BANANASDAQ 🍌</div><button id="start" class="pbtn">START</button><div id="bestT"></div><div id="lbT"></div></div>
 <div id="game" class="scr"><div id="news"><span>📰 장 시작 준비</span></div>
-<div id="hud"><div id="day" style="visibility:hidden">DAY 1</div><div id="timer"></div><div id="bal">$10,000</div><div id="pnl">포지션 없음</div><div id="rank">개미</div><div id="cbB"></div></div>
+<div id="hud"><div id="day" style="visibility:hidden">DAY 1</div><div id="timer"></div><div id="bal">$10,000</div><div id="pnl">포지션 없음</div><div id="rank">개미</div></div>
 <div id="chartBox"><canvas id="chart" width="180" height="180"></canvas><div id="price">0</div></div>
 <div id="space"></div>
-<div id="bets"><button class="pbtn" id="b10">10%<small id="a10"></small></button><button class="pbtn" id="b50">50%<small id="a50"></small></button><button class="pbtn sel" id="b100">100%<small id="a100"></small></button><button class="pbtn" id="lev">X10<small>레버리지 OFF</small></button></div>
+<div id="bets"><div id="cbB"></div></div>
 <div id="acts"><button class="pbtn" id="long">LONG ▲</button><button class="pbtn" id="close">익절</button><button class="pbtn" id="short">SHORT ▼</button></div>
 <div id="wrapb"></div></div>
 <div id="shout"></div><div id="combo"></div><div id="liq">강제청산<br>💀</div><div id="bellTxt">장 마감 🔔</div>
@@ -426,8 +426,8 @@ let P=[];
 function burst(x,y,n,cols,sp=2,life=40,g=.08,sz=1){for(let i=0;i<n;i++){const a=Math.random()*6.283,v=Math.random()*sp+.3;P.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-sp*.4,l:life*(0.6+Math.random()*.6),c:cols[i%cols.length],g,s:sz+(Math.random()<.3?1:0)})}}
 let coins=[];function coinRain(n){for(let i=0;i<n;i++)coins.push({x:30+Math.random()*130,y:120,vx:(Math.random()-.5)*2,vy:-2-Math.random()*2,l:90,f:Math.random()*3|0,b:0})}
 // ---------- state ----------
-const BETS=[10,50,100],MINBET=50,fee=b=>Math.round((2+b*.0005)*100)/100;
-let S={bal:10000,day:0,pct:10,lev:false,pos:null,combo:0,dayStart:0,wins:0,trades:0,best:0,rank:0};
+const BETS=[],MINBET=50,fee=b=>Math.round((2+b*.0005)*100)/100;
+let S={bal:10000,day:0,pct:100,lev:false,pos:null,combo:0,dayStart:0,wins:0,trades:0,best:0,rank:0};
 let best=JSON.parse(localStorage.getItem('nq_best')||'{"bal":0,"ret":-100}');
 let G={on:false,day:null,i:0,t:0,price:0,cur:null,path:[],news:[],last:0,arrows:[]};
 let my2=0,formT=99,lastForm=0,mood='idle',moodT=0,shout='',shoutT=0,shake=0,critter=null,catX=-10,catF=0,frame=0,state='title',titleT=0,bellT=0;
@@ -479,15 +479,15 @@ const SPECIALS=[
  ['돌숭이','바위처럼 가만히','stone',s=>s.trades===0],
 ['청산 수집가','청산 도장 깨기 완료','liq',s=>s.liq>=2&&s.ret<100],
  ['원샷원킬','한 발이면 충분','sniper',s=>s.trades===1&&s.ret>=50],
- ['뚝심있는 원숭이','흔들어도 안 팔아','grit',s=>s.holdW>=40],
- ['존버충','본전 올 때까지 안 판다','jonbeo',s=>s.holdL>=30&&s.ret<100],
+ ['뚝심있는 원숭이','흔들어도 안 팔아','grit',s=>s.holdW>=20],
+ ['존버충','본전 올 때까지 안 판다','jonbeo',s=>s.holdL>=15&&s.ret<100],
  ['기사회생 원숭이','마진콜 맞고 살아남','phoenix',s=>s.mcN>0&&s.ret>0],
  ['인간 지표','내 반대로 하면 부자','contra',s=>s.trades>=5&&s.wins===0&&s.ret<100],
  ['한방맨','아홉 번 털리고 한 방에 역전','oneshot',s=>s.trades>=4&&s.wr<=35&&s.ret>=50&&s.ret<1000],
  ['국밥배터','이길 때마다 국밥 한 그릇','gukbap',s=>s.trades>=5&&s.wr>=80&&s.ret>=0&&s.ret<15],
  ['수수료 기부천사','거래소 사장님 오늘도 감사합니다','angel',s=>s.trades>=3&&s.gross>0&&s.fees>=s.gross&&s.ret<100],
- ['손가락 관절염','손목 보호대 필수','wrist',s=>s.trades>=40&&s.ret<100],
- ['스캘핑 머신','손가락에 쥐 나기 직전','machine',s=>s.trades>=25&&s.trades<=39&&s.ret<100],
+ ['손가락 관절염','손목 보호대 필수','wrist',s=>s.trades>=20&&s.ret<100],
+ ['스캘핑 머신','손가락에 쥐 나기 직전','machine',s=>s.trades>=13&&s.trades<=19&&s.ret<100],
  ['롱숭이','나스닥은 오른다고','long',s=>s.trades>=3&&s.shortN===0&&s.ret<100],
  ['숏숭이','세상아 망해라','short',s=>s.trades>=3&&s.longN===0&&s.ret<100]];
 const SPN=new Set(SPECIALS.map(x=>x[0]));
@@ -560,15 +560,15 @@ let lastM='';function pickNR(a){let s,n=0;do{s=pick(a)}while(s===lastM&&n++<9&&a
 function sayM(t){if(state==='result')return;const e=$('mut');lastM=t;e.textContent=t;e.className='';void e.offsetWidth;e.className='show';clearTimeout(e._t);e._t=setTimeout(()=>e.className='',2800)}
 let mutT=180;function mutter(){if(!G.on)return;let k='ID';if(S.pos){const w=upnl()>=0;k=(S.pos.dir>0?'L':'S')+(w?'W':'L')}const e=$('mut');const HOT={LW:['푸근하다','숏충이들아 정신이 좀 들어?'],SW:['푸근하다','롱충이들아 정신이 좀 들어?'],LL:['한강 물온도 체크','(진짜모름) 이거 환불 안돼요?'],SL:['한강 물온도 체크','(진짜모름) 이거 환불 안돼요?']};const mv=S.pos?(G.price-G.cur[0])*S.pos.dir:0;const yc=S.pos&&S.pos.dir>0?'영차영차!':'영차영차 끌어내려!';const z=(mv>0&&lastM!==yc&&Math.random()<.45)?(S.pos.dir>0?'영차영차!':'영차영차 끌어내려!'):(HOT[k]&&Math.random()<.4)?pickNR(HOT[k]):pickNR(MUT[k]);lastM=z;e.textContent=z;e.className='';void e.offsetWidth;e.className='show';clearTimeout(e._t);e._t=setTimeout(()=>e.className='',2800)}
 // ---------- game flow ----------
-function startDay(){S={bal:10000,day:1,pct:10,lev:S.lev,pos:null,combo:0,dayStart:10000,wins:0,trades:0,best:0,rank:0,fees:0,peak:10000,whales:0,mcs:0,levN:0,maxC:0,tp:0,liqN:0,longN:0,shortN:0,mcN:0,holdW:0,holdL:0,tlog:[]};BETS.forEach(x=>{const e=document.getElementById('b'+x);if(e)e.classList.toggle('sel',x===10)});$('rank').textContent=RANKS[0][1];if(!G.bag||!G.bag.length){G.bag=D.map((_,i)=>i).sort(()=>Math.random()-.5);if(G.bag[G.bag.length-1]===G.lastD&&G.bag.length>1)G.bag.unshift(G.bag.pop())}const di=G.bag.pop();G.lastD=di;const d={...D[di],c:D[di].c.slice(0,GAMEN)};G.day=d;G.i=0;G.t=0;G.arrows=[];G.news=planNews(d.c);G.cur=[...d.c[0]];G.cur[1]=G.cur[2]=G.cur[3]=G.cur[0];G.path=mkPath(d.c[0]);G.price=d.c[0][0];S.dayStart=S.bal;S.fees=0;S.wins=0;S.trades=0;S.best=0;G.gim=schedGim();gimReset();G.on=true;state='play';
+function startDay(){S={bal:10000,day:1,pct:100,lev:S.lev,pos:null,combo:0,dayStart:10000,wins:0,trades:0,best:0,rank:0,fees:0,peak:10000,whales:0,mcs:0,levN:0,maxC:0,tp:0,liqN:0,longN:0,shortN:0,mcN:0,holdW:0,holdL:0,tlog:[]};BETS.forEach(x=>{const e=document.getElementById('b'+x);if(e)e.classList.toggle('sel',x===10)});$('rank').textContent=RANKS[0][1];if(!G.bag||!G.bag.length){G.bag=D.map((_,i)=>i).sort(()=>Math.random()-.5);if(G.bag[G.bag.length-1]===G.lastD&&G.bag.length>1)G.bag.unshift(G.bag.pop())}const di=G.bag.pop();G.lastD=di;const d={...D[di],c:D[di].c.slice(0,GAMEN)};G.day=d;G.i=0;G.t=0;G.arrows=[];G.news=planNews(d.c);G.cur=[...d.c[0]];G.cur[1]=G.cur[2]=G.cur[3]=G.cur[0];G.path=mkPath(d.c[0]);G.price=d.c[0][0];S.dayStart=S.bal;S.fees=0;S.wins=0;S.trades=0;S.best=0;G.gim=schedGim();gimReset();G.on=true;state='play';
  setNews(d.tag?d.tag+' 발표일! 변동성 주의':pick(CALM));show('game');}
 function show(id){['title','game','result','bust'].forEach(k=>$(k).classList.toggle('hide',k!==id&&!(k==='game'&&id!=='title')));if(id!=='title')$('game').classList.remove('hide')}
-const comboPct=()=>5*(S.combo||0);
+const comboPct=()=>10*(S.combo||0);
 const ptVal=()=>S.pos?S.pos.pv:0; // $ per point (~MNQ x bet/60)
 function upnl(){if(!S.pos)return 0;return (G.price-S.pos.px)*S.pos.dir*ptVal()}
 function enter(dir){if(!G.on)return;if(S.pos)return;
  const bet=S.pct>=100?Math.floor((S.bal-4)/1.001*100)/100:Math.floor(S.bal*S.pct/100);if(bet<MINBET){say('잔고 부족!');return}
- if(S.lev)S.levN=(S.levN||0)+1;const f=fee(bet);S.bal-=f;S.fees=(S.fees||0)+f;if(dir>0)S.longN=(S.longN||0)+1;else S.shortN=(S.shortN||0)+1;S.pos={dir,i0:G.i,px:G.price,bet,pv:Math.sqrt(bet)/3*(S.lev?10:0+1),lev:S.lev};if(S.lev){shake=6;burst(dir>0?50:145,395,16,['o','r','Y'],2,25)}snd(880,.06);G.arrows.push({i:G.i,p:G.price,d:dir});
+ if(S.lev)S.levN=(S.levN||0)+1;const f=fee(bet);S.bal-=f;S.fees=(S.fees||0)+f;if(dir>0)S.longN=(S.longN||0)+1;else S.shortN=(S.shortN||0)+1;S.pos={dir,i0:G.i,px:G.price,bet,pv:Math.sqrt(bet)/3*2,lev:S.lev};if(S.lev){shake=6;burst(dir>0?50:145,395,16,['o','r','Y'],2,25)}snd(880,.06);G.arrows.push({i:G.i,p:G.price,d:dir});
  const bx=dir>0?50:145;burst(bx,395,14,dir>0?['r','p','Y','w']:['B','b','c','w'],1.8,25);
  if(dir>0)say(pick(['지금이니!','지금이니!','지금이니!','지금이니!','가즈아!!','가즈아!!','롱롱롱!','떡상 가즈아!']),55,'L');else say(pick(['간다간다 숏간다!','숏숏숏!','숏숏숏!','간다간다 숏간다!','지금이니!']),55,'S');
  setMood('happy',40);}
@@ -613,7 +613,7 @@ const ONL={async top(mode){const ac=new AbortController(),tm=setTimeout(()=>ac.a
 async function submitScore(bal,ret,ttl,combo,trades,wr){const nick=($('nick').value.trim()||'원숭이').slice(0,12);localStorage.setItem('nq_nick',nick);const ts=Date.now();const en={nick,bal:Math.round(bal),ret,ts,ttl,combo:combo||0,trades:trades|0,wr:Math.round((wr||0)*10)/10};await LB.submit(en);showTitleLB();let ok=false;try{ok=await ONL.post(en)}catch(e){}return {...en,ok}}
 function lbRes(l,mode,hits){const C=e=>e.combo||0;l=[...l].sort((a,b)=>mode==='ret'?b.ret-a.ret:(C(b)-C(a)||b.bal-a.bal)).slice(0,10);if(!l.length)return '<p class="emp">아직 기록 없음</p>';return l.map((e,i)=>`<div class="lr2${hits&&(e.ts===hits.ts||(e.nick===hits.nick&&Math.round(e.bal)===hits.bal&&Math.abs(e.ret-hits.ret)<.01))?' me':''}">${medal(i)}<span class="nk">${esc(e.nick)}<small>${esc(dispTitle(e))}</small></span><span class="v">${mode==='ret'?`<b class="${e.ret>=0?'g':'r'}">${e.ret>=0?'+':''}${e.ret.toFixed(1)}%</b><small>${fmt(e.bal)}</small>`:`<b>${C(e)}콤보</b>`}</span></div>`).join('')}
 // ---------- loop ----------
-const CANDLE=2000,GAMEN=60;let lastTs=0;
+const CANDLE=2000,GAMEN=30;let lastTs=0;
 function step(dt){if(!G.on)return;if(--mutT<=0){mutter();mutT=300+Math.random()*180|0}G.t+=dt;const c=G.day.c;const k=Math.min(30,(G.t/CANDLE*30)|0);const np=G.path[k];
  if(np!==G.price){const pe=$('price');pe.className=np>G.price?'up':'dn';}G.price=np;G.cur[3]=np;G.cur[1]=Math.max(G.cur[1],np);G.cur[2]=Math.min(G.cur[2],np);
  if(G.t>=CANDLE){G.t-=CANDLE;G.cur=[...c[G.i]];G.i++;{const v=c[G.i-1][4],pr=c.slice(Math.max(0,G.i-11),G.i-1);const av=pr.reduce((s,x)=>s+x[4],0)/(pr.length||1);if(pr.length>=5&&v>av*2.5&&!(G.whaleCd>0)){G.whale=1;G.whaleCd=12;S.whales=(S.whales||0)+1;sayM('고래형님 떴다 ㅋㅋㅋ');setNews('🐋 고래형님 떴다 ㅋㅋㅋ 거래량 폭발',true);snd(90,.4,'sine',.06,-30)}else G.whaleCd=(G.whaleCd||0)-1}
@@ -624,7 +624,7 @@ function step(dt){if(!G.on)return;if(--mutT<=0){mutter();mutT=300+Math.random()*
  if(S.pos){const p=upnl();const r=-p/S.pos.bet;$('game').classList.toggle('mc',r>=.75);if(r>=.75&&!G.danger){S.mcN=(S.mcN||0)+1;G.danger=1,sayM(pick(['마진콜 떴다!!','증거금 부족이래','샤갈!!','나락 간다','계좌 녹는 중…','레버리지에 쓰이는 중']));const m=$('mm');m.className='';void m.offsetWidth;m.className='slam '+(S.pos.dir>0?'up':'dn');$('shout').style.display='none';shake=25;snd(150,.4,'sawtooth',.09,200);clearTimeout(G.mt);G.mt=setTimeout(()=>{if(G.danger)m.className='ling '+(S.pos&&S.pos.dir>0?'up':'dn')},1400)}else if(r<.6&&G.danger){S.mcs=(S.mcs||0)+1;dangerOff()}if(r>=.75&&mood!=='panic')setMood('panic',30);if(r>=1)liquidate()}else{$('game').classList.remove('mc');if(G.danger)dangerOff()}}
 
 const GIM_INFO={witch:['세 마녀의 날',3],cpi:['메일 폭탄의 날',1]};
-function schedGim(){const n=Math.random()<.5?2:3,ev=[];let at=6+(Math.random()*8|0);for(let e=0;e<n;e++){const k=Math.random()<.5?'witch':'cpi',d=GIM_INFO[k][1];if(at+d>GAMEN-2)break;ev.push({at,k,d});at+=d+5+(Math.random()*10|0)}return ev}
+function schedGim(){const n=Math.random()<.5?1:2,ev=[];let at=5+(Math.random()*6|0);for(let e=0;e<n;e++){const k=Math.random()<.5?'witch':'cpi',d=GIM_INFO[k][1];if(at+d>GAMEN-3)break;ev.push({at,k,d});at+=d+5+(Math.random()*10|0)}return ev}
 function gimAt(i){for(const e of G.gim||[])if(i>=e.at&&i<e.at+e.d)return e.k;return null}
 function gimReset(){window.__mailOK=false;clearMails();if(window.WCH)WCH.halt();G.gk=null}
 function gimTick(){const i=G.i;for(const e of G.gim||[])if(e.at-1===i){if(!window.WCH)window.WCH=FX2.gfx();WCH.warn(e.k);setNews('⚠ 다음 봉: '+GIM_INFO[e.k][0]+'!',true);snd(1200,.1)}
@@ -684,13 +684,13 @@ function drawFx(){fc.clearRect(0,0,W,H);frame++;const bob=Math.sin(frame/10)>0?0
  coins=coins.filter(c=>{c.vy+=.15;c.x+=c.vx;c.y+=c.vy;if(c.y>300&&c.vy>0){c.vy*=-.55;c.b++}c.l--;draw(fc,coin[(frame/4+c.f|0)%3],c.x,c.y,1);return c.l>0});
  P=P.filter(p=>{p.vy+=p.g;p.x+=p.vx;p.y+=p.vy;p.l--;fc.fillStyle=PAL[p.c]||p.c;fc.fillRect(p.x|0,p.y|0,p.s,p.s);return p.l>0});}
 function ui(){S.peak=Math.max(S.peak||0,S.bal+(S.pos?Math.max(upnl(),-S.pos.bet):0));BETS.forEach(b=>{const a=$('a'+b);if(a)a.textContent=fmt(b>=100?Math.max(0,Math.floor((S.bal-4)/1.001)):Math.floor(S.bal*b/100))});const p=S.pos?Math.max(upnl(),-S.pos.bet):0;$('bal').textContent=fmt(S.bal+p);const e=$('pnl');if(S.pos){e.textContent=(p>=0?'+':'')+fmt(p)+' ('+(p/S.bal*100).toFixed(2)+'%) '+(S.pos.dir>0?'LONG':'SHORT')+(S.pos.lev?' 🔥×10':'');e.className=p>=0?'g':'r'}else{e.textContent='포지션 없음';e.className=''}
- {const hp=!!(S.pos&&G.on);$('acts').classList.toggle('haspos',hp);const cl=$('close'),lb=hp&&upnl()<0?'손절':'익절';if(cl.textContent!==lb){cl.textContent=lb;cl.classList.toggle('loss',lb==='손절')}const cb=$('cbB'),cp=comboPct();cb.classList.toggle('on',cp>0);if(cp>0)cb.textContent='🔥 '+S.combo+'연승 · 다음 익절 +'+cp+'%'}$('price').textContent=G.price.toFixed(2);if(shoutT>0&&--shoutT===0)$('shout').style.display='none';
+ {const hp=!!(S.pos&&G.on);$('acts').classList.toggle('haspos',hp);const cl=$('close'),lb=hp&&upnl()<0?'손절':'익절';if(cl.textContent!==lb){cl.textContent=lb;cl.classList.toggle('loss',lb==='손절')}const cb=$('cbB'),cp=comboPct();cb.classList.toggle('on',cp>0);{const h=cp>0?'🔥 <b>'+S.combo+' COMBO</b> · 수익 <b>+'+cp+'%</b>':'🔥 0 COMBO · 익절 시 +10%';if(cb.innerHTML!==h)cb.innerHTML=h}}$('price').textContent=G.price.toFixed(2);if(shoutT>0&&--shoutT===0)$('shout').style.display='none';
  $('timer').textContent=G.day?Math.max(0,GAMEN*CANDLE/1000-Math.floor((G.i*CANDLE+G.t)/1000))+'s':'';
  const sx=shake>0?(Math.random()-.5)*shake:0;$('wrap').style.transform=`translate(${sx}px,${shake>0?(Math.random()-.5)*shake:0}px)`;if(shake>0)shake*=.9,shake<.5&&(shake=0);}
 function loop(ts){const dt=Math.min(100,ts-(lastTs||ts));lastTs=ts;step(PAUSE?0:dt);drawChart();drawFx();ui();requestAnimationFrame(loop)}
 // ---------- input ----------
 
-$('lev').onclick=()=>{S.lev=!S.lev;$('lev').classList.toggle('on',S.lev);snd(S.lev?180:900,.12,'square',.05);if(S.lev){say('×10 위험!',40,'S',false);shake=5}};
+
 $('long').onclick=()=>enter(1);$('short').onclick=()=>enter(-1);$('close').onclick=()=>close('');
 $('start').onclick=()=>{snd(660,.1);startDay()};$('next').onclick=()=>startDay();
 BETS.forEach(b=>{const e=$('b'+b);e.onclick=()=>{S.pct=b;BETS.forEach(x=>$('b'+x).classList.toggle('sel',x===b));snd(1000,.03)}});

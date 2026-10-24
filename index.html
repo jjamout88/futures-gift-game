@@ -1,7 +1,8 @@
-<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"><title>바나나스닥 BANANASDAQ</title>
+<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="favicon.png" type="image/png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="theme-color" content="#0d0e17"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="바나나스닥"><title>바나나스닥 BANANASDAQ</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;user-select:none}
-html,body{width:100%;height:100%;overflow:hidden;background:#0d0e17;font-family:"DungGeunMo","Galmuri11","Press Start 2P",monospace;color:#f4f4f4}
+html,body{width:100%;height:100%;height:100dvh;overflow:hidden;overscroll-behavior:none;touch-action:manipulation;-webkit-text-size-adjust:100%;background:#0d0e17;font-family:"DungGeunMo","Galmuri11","Press Start 2P",monospace;color:#f4f4f4}
+#sa{position:fixed;left:0;top:0;width:0;height:0;visibility:hidden;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
 #root{position:absolute;top:0;width:390px;height:844px;transform-origin:0 0}
 #wrap{position:relative;width:390px;height:844px;background:#1a1c2c;overflow:hidden;border:4px solid #333c57}
 canvas{image-rendering:pixelated;image-rendering:crisp-edges}
@@ -421,8 +422,8 @@ $('start').onclick=()=>{snd(660,.1);startDay()};$('next').onclick=()=>startDay()
 BETS.forEach(b=>{const e=$('b'+b);e.onclick=()=>{S.pct=b;BETS.forEach(x=>$('b'+x).classList.toggle('sel',x===b));snd(1000,.03)}});
 $('again').onclick=()=>startDay();
 showTitleLB();$('bestT').innerHTML=best.bal<=0?'최고 기록 없음':'최고 기록 '+fmt(best.bal)+' · '+(best.ret>=0?'+':'')+best.ret.toFixed(1)+'%';
-function fit(){const s=Math.min(innerWidth/390,innerHeight/844);$('root').style.transform=`scale(${s})`;$('root').style.left=((innerWidth-390*s)/2)+'px';}
-addEventListener('resize',fit);fit();show('title');$('title').classList.remove('hide');$('game').classList.add('hide');requestAnimationFrame(loop);
+function fit(){let sa=$('sa');if(!sa){sa=document.createElement('div');sa.id='sa';document.body.appendChild(sa);}const cs=getComputedStyle(sa),t=parseFloat(cs.paddingTop)||0,b=parseFloat(cs.paddingBottom)||0,l=parseFloat(cs.paddingLeft)||0,r=parseFloat(cs.paddingRight)||0;const vw=innerWidth,vh=(window.visualViewport?visualViewport.height:innerHeight),aw=vw-l-r,ah=vh-t-b;const s=Math.min(aw/390,ah/844);const R=$('root');R.style.transform=`scale(${s})`;R.style.left=(l+(aw-390*s)/2)+'px';R.style.top=(t+(ah-844*s)/2)+'px';}
+addEventListener('resize',fit);addEventListener('orientationchange',()=>setTimeout(fit,200));if(window.visualViewport)visualViewport.addEventListener('resize',fit);document.addEventListener('gesturestart',e=>e.preventDefault());document.addEventListener('dblclick',e=>e.preventDefault());fit();show('title');$('title').classList.remove('hide');$('game').classList.add('hide');requestAnimationFrame(loop);
 window.__dbg={drawPortrait,TITLES,G,S:()=>S,endDay};
 
 const GURL='https://jjamout88.github.io/futures-gift-game/';

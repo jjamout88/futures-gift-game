@@ -99,9 +99,9 @@ canvas{image-rendering:pixelated;image-rendering:crisp-edges}
 #dxGrid{flex:1;width:100%;overflow-y:auto;display:grid;grid-template-columns:1fr 1fr;gap:8px;padding-bottom:30px;align-content:start;-webkit-overflow-scrolling:touch}
 .dxc{position:relative;background:#262b44;border:3px solid #000;padding:6px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:3px}.dxc canvas{width:84px;height:84px;image-rendering:pixelated;border:2px solid #000}
 .dxc .n{color:#ffcd2e;font-weight:bold;font-size:14px}.dxc .d{color:#c2c3c7;font-size:11px;min-height:14px}.dxc .c{color:#73eff7;font-size:11px;background:#1a1c2c;padding:2px 4px;width:100%}.dxc.lock .n{color:#566c86}#dxGrid.sp .dxc{justify-content:center;min-height:150px}
-.dxc .new{position:absolute;top:4px;right:4px;background:#e43b44;color:#fff;font-size:11px;font-weight:bold;padding:1px 4px;border:2px solid #000;animation:nb .8s infinite alternate}@keyframes nb{to{transform:scale(1.15)}}
+.dxc .new{position:absolute;top:4px;right:4px;background:#e43b44;color:#fff;font-size:11px;font-weight:bold;padding:1px 4px;border:2px solid #000;animation:nb .8s infinite alternate}@keyframes nb{to{transform:scale(1.15)}}#cfgB{position:absolute;left:8px;top:42px;z-index:60;width:40px;height:36px;padding:0;font-size:20px;background:#333c57;border:3px solid #000;box-shadow:3px 3px 0 #000;line-height:28px}#cfg{position:absolute;inset:0;z-index:70;background:rgba(10,10,20,.82);display:flex;align-items:center;justify-content:center}#cfg.hide{display:none}#cfgP{width:300px;background:#262b44;border:4px solid #000;box-shadow:6px 6px 0 #000;padding:16px;color:#f4f4f4}#cfgP h3{margin:0 0 14px;text-align:center;color:#ffcd2e;font-size:22px}.cr{display:flex;justify-content:space-between;align-items:center;margin:12px 0;font-size:17px}.tg{width:84px;height:36px;font-size:15px;border:3px solid #000;box-shadow:3px 3px 0 #000;background:#566c86;color:#fff}.tg.on{background:#38b764}#vol{width:100%;accent-color:#ffcd2e;height:24px}#cfgX{width:100%;height:46px;margin-top:14px;font-size:18px;background:#ffcd2e;color:#1a1c2c;border:4px solid #000;box-shadow:4px 4px 0 #000}#vlT{color:#ffcd2e}
 </style></head><body><div id="root"><div id="wrap">
-<div id="title" class="scr"><h1>🍌 바나나스닥</h1><div class="sub">🍌 BANANASDAQ 🍌</div><button id="start" class="pbtn">START</button><div id="bestT"></div><div id="lbT"></div></div>
+<button id="cfgB" class="pbtn">⚙️</button><div id="cfg" class="hide"><div id="cfgP"><h3>⚙️ 설정</h3><div class="cr"><span>🎵 배경음악</span><button id="tgB" class="tg"></button></div><div class="cr"><span>🔉 BGM 볼륨</span><span id="vlT"></span></div><input type="range" id="vol" min="0" max="100"><div class="cr"><span>🔔 효과음</span><button id="tgS" class="tg"></button></div><button id="cfgX" class="pbtn">닫기</button></div></div><div id="title" class="scr"><h1>🍌 바나나스닥</h1><div class="sub">🍌 BANANASDAQ 🍌</div><button id="start" class="pbtn">START</button><div id="bestT"></div><div id="lbT"></div></div>
 <div id="game" class="scr"><div id="news"><span>📰 장 시작 준비</span></div>
 <div id="hud"><div id="day" style="visibility:hidden">DAY 1</div><div id="timer"></div><div id="bal">$10,000</div><div id="pnl">포지션 없음</div><div id="rank">개미</div></div>
 <div id="chartBox"><canvas id="chart" width="180" height="180"></canvas><div id="price">0</div></div>
@@ -121,7 +121,7 @@ const W=195,H=422; // fx canvas low-res (2x)
 const fx=$('fx'),fc=fx.getContext('2d');
 const ch=$('chart'),cc=ch.getContext('2d'); const CW=180,CH=180;
 // ---------- audio ----------
-let AC=null;function snd(f,d=.08,type='square',v=.06,slide=0){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain();o.type=type;o.frequency.value=f;if(slide)o.frequency.linearRampToValueAtTime(f+slide,AC.currentTime+d);g.gain.value=v;g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+d);o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+d);}catch(e){}}
+let CFG=Object.assign({bgm:true,vol:50,sfx:true},(()=>{try{return JSON.parse(localStorage.getItem('nq_cfg')||'{}')}catch(e){return{}}})());let AC=null;function snd(f,d=.08,type='square',v=.06,slide=0){if(CFG.sfx===false)return;try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain();o.type=type;o.frequency.value=f;if(slide)o.frequency.linearRampToValueAtTime(f+slide,AC.currentTime+d);g.gain.value=v;g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+d);o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+d);}catch(e){}}
 const coinSnd=()=>{snd(988,.08);setTimeout(()=>snd(1319,.25),80)};
 const bell=()=>{[0,300,600].forEach(t=>setTimeout(()=>snd(1568,.5,'triangle',.08),t))};
 // ---------- sprites (pixel arrays) ----------
@@ -413,7 +413,7 @@ function ui(){S.peak=Math.max(S.peak||0,S.bal+(S.pos?Math.max(upnl(),-S.pos.bet)
  $('price').textContent=G.price.toFixed(2);if(shoutT>0&&--shoutT===0)$('shout').style.display='none';
  $('timer').textContent=G.day?Math.max(0,GAMEN*CANDLE/1000-Math.floor((G.i*CANDLE+G.t)/1000))+'s':'';
  const sx=shake>0?(Math.random()-.5)*shake:0;$('wrap').style.transform=`translate(${sx}px,${shake>0?(Math.random()-.5)*shake:0}px)`;if(shake>0)shake*=.9,shake<.5&&(shake=0);}
-function loop(ts){const dt=Math.min(100,ts-(lastTs||ts));lastTs=ts;step(dt);drawChart();drawFx();ui();requestAnimationFrame(loop)}
+function loop(ts){const dt=Math.min(100,ts-(lastTs||ts));lastTs=ts;step(PAUSE?0:dt);drawChart();drawFx();ui();requestAnimationFrame(loop)}
 // ---------- input ----------
 
 $('lev').onclick=()=>{S.lev=!S.lev;$('lev').classList.toggle('on',S.lev);snd(S.lev?180:900,.12,'square',.05);if(S.lev){say('×10 위험!',40,'S',false);shake=5}};
@@ -422,6 +422,24 @@ $('start').onclick=()=>{snd(660,.1);startDay()};$('next').onclick=()=>startDay()
 BETS.forEach(b=>{const e=$('b'+b);e.onclick=()=>{S.pct=b;BETS.forEach(x=>$('b'+x).classList.toggle('sel',x===b));snd(1000,.03)}});
 $('again').onclick=()=>startDay();
 showTitleLB();$('bestT').innerHTML=best.bal<=0?'최고 기록 없음':'최고 기록 '+fmt(best.bal)+' · '+(best.ret>=0?'+':'')+best.ret.toFixed(1)+'%';
+
+let PAUSE=false;const BGM={buf:null,src:null,g:null,ld:null,
+ vol(){return CFG.bgm?(CFG.vol/100)*.12:0},
+ load(){if(this.ld)return this.ld;const a=document.createElement('audio');const ogg=a.canPlayType&&a.canPlayType('audio/ogg; codecs="vorbis"');const u=ogg?'bgm.ogg':'bgm.m4a';
+  this.ld=fetch(u).then(r=>r.arrayBuffer()).then(b=>new Promise((ok,no)=>AC.decodeAudioData(b,ok,no))).catch(()=>fetch('bgm.m4a').then(r=>r.arrayBuffer()).then(b=>new Promise((ok,no)=>AC.decodeAudioData(b,ok,no)))).then(x=>{this.buf=x;return x});return this.ld},
+ async start(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')await AC.resume();if(!this.g){this.g=AC.createGain();this.g.connect(AC.destination)}this.g.gain.value=this.vol();if(this.src||!CFG.bgm)return;await this.load();if(this.src||!CFG.bgm)return;const s=AC.createBufferSource();s.buffer=this.buf;s.loop=true;s.connect(this.g);s.start();this.src=s}catch(e){}},
+ stop(){if(this.src){try{this.src.stop()}catch(e){}this.src=null}},
+ apply(){if(this.g)this.g.gain.setTargetAtTime(this.vol(),AC.currentTime,.03);if(CFG.bgm)this.start();else this.stop()}};
+function saveCfg(){localStorage.setItem('nq_cfg',JSON.stringify(CFG))}
+function cfgUI(){$('tgB').textContent=CFG.bgm?'켜짐':'꺼짐';$('tgB').classList.toggle('on',CFG.bgm);$('tgS').textContent=CFG.sfx?'켜짐':'꺼짐';$('tgS').classList.toggle('on',CFG.sfx);$('vol').value=CFG.vol;$('vlT').textContent=CFG.vol}
+cfgUI();window.__bgm=BGM;window.__ac=()=>AC;
+const firstT=()=>{BGM.start();removeEventListener('pointerdown',firstT,true);removeEventListener('touchend',firstT,true)};addEventListener('pointerdown',firstT,true);addEventListener('touchend',firstT,true);
+document.addEventListener('visibilitychange',()=>{if(!AC)return;if(document.hidden)AC.suspend();else AC.resume()});
+$('cfgB').onclick=()=>{PAUSE=true;cfgUI();$('cfg').classList.remove('hide')};
+$('cfgX').onclick=()=>{PAUSE=false;lastTs=0;$('cfg').classList.add('hide')};
+$('tgB').onclick=()=>{CFG.bgm=!CFG.bgm;saveCfg();cfgUI();BGM.apply()};
+$('tgS').onclick=()=>{CFG.sfx=!CFG.sfx;saveCfg();cfgUI();snd(880,.06)};
+$('vol').oninput=()=>{CFG.vol=+$('vol').value;$('vlT').textContent=CFG.vol;if(CFG.vol>0&&!CFG.bgm)CFG.bgm=true,cfgUI();saveCfg();BGM.apply()};
 function fit(){let sa=$('sa');if(!sa){sa=document.createElement('div');sa.id='sa';document.body.appendChild(sa);}const cs=getComputedStyle(sa),t=parseFloat(cs.paddingTop)||0,b=parseFloat(cs.paddingBottom)||0,l=parseFloat(cs.paddingLeft)||0,r=parseFloat(cs.paddingRight)||0;const vw=innerWidth,vh=(window.visualViewport?visualViewport.height:innerHeight),aw=vw-l-r,ah=vh-t-b;const s=Math.min(aw/390,ah/844);const R=$('root');R.style.transform=`scale(${s})`;R.style.left=(l+(aw-390*s)/2)+'px';R.style.top=(t+(ah-844*s)/2)+'px';}
 addEventListener('resize',fit);addEventListener('orientationchange',()=>setTimeout(fit,200));if(window.visualViewport)visualViewport.addEventListener('resize',fit);document.addEventListener('gesturestart',e=>e.preventDefault());document.addEventListener('dblclick',e=>e.preventDefault());fit();show('title');$('title').classList.remove('hide');$('game').classList.add('hide');requestAnimationFrame(loop);
 window.__dbg={drawPortrait,TITLES,G,S:()=>S,endDay};

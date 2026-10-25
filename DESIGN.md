@@ -234,3 +234,8 @@
 - The ORIGINAL v20 in-game monkey (global `face`/`body`/`bodyUp`/`draw`, scale 5, crisp) stands on the latest candle, easing to its high, hopping when up, sad when down.
 - Every ~3–4 s it transforms by trend (last 8 candles): 롱숭이 (headband drop + sparkle burst, red body) or 숏숭이 (lightning, dark burst, suit/sunglasses, cloud), with a tag label, for ~200 frames, then poofs back. Trend also biases candles.
 - 최고기록 556, 랭킹 592 (max-h 180). Same single rAF loop, no extra assets.
+
+## v21f (title speed + speech)
+- Title chart ~2x faster (tick every 2 frames, new candle every 22 frames); monkey eases faster, hops every 10 frames; transforms unchanged.
+- Monkey speech bubble (`bubble()` in title.js): pixel bubble extending LEFT of the monkey (clamped x>=14) with tail to the monkey, near screen centre; changes every ~170 frames or on state change. 롱숭이/숏숭이 tag moved under the monkey.
+- Lines (`LN`) are reused verbatim from the in-game MUT pools (ID / LW / LL+MLOSS), 10 per state; no new lines.

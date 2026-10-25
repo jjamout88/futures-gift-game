@@ -864,9 +864,9 @@ const TTL=(()=>{let bc,oc,cv,c,raf=0,f=0,lead=null,tx=0;const W=390,H=844,u=2;
  const CX0=24,CX1=366,CY0=200,CY1=392,CWD=12;let cs=[],cT=0,mY=0,form=0,fT=0,nextF=200,pts=[];
  function cInit(){let v=50;cs=[];for(let i=0;i<30;i++){const o=v;v+=(Math.random()-.47)*6;cs.push({o,c:v,h:Math.max(o,v)+Math.random()*2,l:Math.min(o,v)-Math.random()*2})}}
  function chartMk(){if(!cs.length)cInit();const g=c;cT++;const L=cs[cs.length-1];
-  if(cT%5===0){L.c+=(Math.random()-.5+(form?form*.12:0))*2.2;L.h=Math.max(L.h,L.c);L.l=Math.min(L.l,L.c)}
-  if(cT%45===0){cs.push({o:L.c,c:L.c,h:L.c,l:L.c});if(cs.length>34)cs.shift()}
-  const off=(cT%45)/45*CWD,n=Math.min(cs.length,((CX1-CX0)/CWD|0)+1),vis=cs.slice(-n);let hi=-1e9,lo=1e9;for(const k of vis){hi=Math.max(hi,k.h);lo=Math.min(lo,k.l)}const pad=(hi-lo)*.15+2;hi+=pad;lo-=pad;
+  if(cT%2===0){L.c+=(Math.random()-.5+(form?form*.12:0))*2.2;L.h=Math.max(L.h,L.c);L.l=Math.min(L.l,L.c)}
+  if(cT%22===0){cs.push({o:L.c,c:L.c,h:L.c,l:L.c});if(cs.length>34)cs.shift()}
+  const off=(cT%22)/22*CWD,n=Math.min(cs.length,((CX1-CX0)/CWD|0)+1),vis=cs.slice(-n);let hi=-1e9,lo=1e9;for(const k of vis){hi=Math.max(hi,k.h);lo=Math.min(lo,k.l)}const pad=(hi-lo)*.15+2;hi+=pad;lo-=pad;
   const top=CY0+70,Y=v=>top+(hi-v)/(hi-lo)*(CY1-top);
   g.fillStyle='rgba(10,14,30,.55)';g.fillRect(CX0-6,CY0+56,CX1-CX0+12,CY1-CY0-50);g.fillStyle='rgba(115,239,247,.07)';for(let i=0;i<5;i++)g.fillRect(CX0,top+i*(CY1-top)/4|0,CX1-CX0,1);
   let lx=0;vis.forEach((k,i)=>{const x=(CX1-70-(vis.length-1-i)*CWD-off+ (i===vis.length-1?off:0))|0;if(x<CX0)return;const up=k.c>=k.o,col=up?'#ff4b55':'#4fa3ff';g.fillStyle=col;g.fillRect(x+3,Y(k.h)|0,2,Math.max(2,(Y(k.l)-Y(k.h))|0));const t=Math.min(Y(k.o),Y(k.c)),b=Math.max(Y(k.o),Y(k.c));g.fillRect(x,t|0,8,Math.max(2,(b-t)|0));lx=x});
@@ -874,8 +874,8 @@ const TTL=(()=>{let bc,oc,cv,c,raf=0,f=0,lead=null,tx=0;const W=390,H=844,u=2;
   // trend -> transform
   if(!form&&cT>=nextF){const d=L.c-cs[Math.max(0,cs.length-8)].c;form=d>=0?1:-1;fT=0}if(form&&fT>200){form=0;fT=0;nextF=cT+160+(Math.random()*80|0);for(let i=0;i<20;i++)pts.push({x:lx-14+20,y:mY+20,vx:(Math.random()-.5)*3,vy:(Math.random()-.5)*3,l:20,c:Math.random()<.5?'#f4f4f4':'#566c86'})}fT++;
   // monkey stands on candle top
-  const sc=5,ty=Y(L.h)-13*sc-2;mY+=(ty-mY)*.15;if(!mY)mY=ty;const up=L.c>=L.o,m=form&&fT<20?'panic':up?'happy':'sad';let F=face[m]||face.idle,Bd=m==='happy'?bodyUp:body;
-  const mx=lx-21,hop=(m==='happy'&&cT%16<8)?-4:0,my=Math.round(mY+hop);
+  const sc=5,ty=Y(L.h)-13*sc-2;mY+=(ty-mY)*.25;if(!mY)mY=ty;const up=L.c>=L.o,m=form&&fT<20?'panic':up?'happy':'sad';let F=face[m]||face.idle,Bd=m==='happy'?bodyUp:body;
+  const mx=lx-21,hop=(m==='happy'&&cT%10<5)?-5:0,my=Math.round(mY+hop);
   if(form>0){const land=fT>=18;Bd=Bd.map(r=>r.replace(/s/g,'Y').replace(/n/g,'r'));if(land)F=F.map((r,j)=>j===1?'.rrrrrrrr.':(j===3&&m!=='sad'?'snkkkkkkns':r));else draw(g,S2(['.rrrrrrrr.','snkkkkkkns']),mx,my+4-(18-fT)*6,sc);
    if(fT===18)for(let i=0;i<26;i++)pts.push({x:mx+25,y:my+10,vx:(Math.random()-.5)*5,vy:(Math.random()-.8)*4,l:24,c:['#f7e26b','#f4f4f4','#ef7d57'][i%3]})}
   if(form<0){const aw=fT>=12;if(aw){Bd=Bd.map(r=>r.replace(/s/g,'b').replace(/n/g,'d'));F=F.map((r,j)=>j<2?r.replace(/n/g,'d'):(j===2?'ddddssssdd':(j===3?r.replace(/k/g,'B'):r)))}
@@ -883,8 +883,17 @@ const TTL=(()=>{let bc,oc,cv,c,raf=0,f=0,lead=null,tx=0;const W=390,H=844,u=2;
    if(fT<20&&fT%5<2){g.fillStyle='#73eff7';let x=mx+8+Math.random()*24;for(let y=my-50;y<my;y+=4){x+=(Math.random()-.5)*5;g.fillRect(x|0,y,2,4)}}
    if(aw)draw(g,S2(['.GGG.','GGGGG','.GGG.']),mx+8+(cT%40<20?0:1),my-22,4)}
   draw(g,S2(F),mx,my,sc);draw(g,S2(Bd),mx,my+7*sc,sc);
-  if(form){g.font='13px DungGeunMo, monospace';g.textAlign='center';g.textBaseline='middle';const tx=mx+25,tg=form>0?'롱숭이':'숏숭이';g.fillStyle=form>0?'#d83a3a':'#2f6fd0';g.fillRect(tx-84,my+6,52,18);g.fillStyle='#fff';g.fillText(tg,tx-58,my+16)}
+  if(form){g.font='13px DungGeunMo, monospace';g.textAlign='center';g.textBaseline='middle';const tx=mx+25,tg=form>0?'롱숭이':'숏숭이';g.fillStyle=form>0?'#d83a3a':'#2f6fd0';g.fillRect(tx-26,my+68,52,18);g.fillStyle='#fff';g.fillText(tg,tx,my+78)}
+  bubble(g,mx,my,form?form:(up?1:-1)*(Math.abs(L.c-cs[Math.max(0,cs.length-5)].c)>3?1:0));
   pts=pts.filter(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.08;g.fillStyle=p.c;g.fillRect(p.x|0,p.y|0,3,3);return--p.l>0})}
+
+ const LN={0:['차트는 거짓말 안 한다 (거짓말함)','레버리지 쓰다 레버리지에 쓰인다','롱숭이 될까 숏숭이 될까','아무것도 안 하면 안 잃지','원숭이도 차트는 본다','오늘 운세 대박이랬는데','현금도 포지션이야','바나나 껍질 조심','연준 의장님 오늘 뭐라셔','커피 한 잔 할까'],1:['가즈아ㅏㅏ','포르쉐 색깔 고르는 중','부장님 안녕히 계세요','이 정도면 워렌 원숭이','익절? 그게 뭔데','람보르기니 시승 예약 완료','바나나 트럭째로 산다','올해 마이너스 4시간 정도 봤나?','킹스닥 가즈아!','엄마 나 성공했어'],'-1':['물렸다…','털렸다… 팔자마자 오름','설거지 당했다','상투 잡았다','차트가 잠깐 삐졌어','눈 감으면 수익','물린 게 아니라 버티는 중이다','계좌야 미안해','나 본전 올 때까지 숨 참음','내가 롱 잡으면 떨어지는 인간지표']};
+ let bS=null,bL='',bT=0;
+ function bubble(g,mx,my,st){bT++;if(st!==bS||bT>170){bS=st;bT=0;const a=LN[st]||LN[0];let n;do{n=a[Math.random()*a.length|0]}while(n===bL&&a.length>1);bL=n}
+  if(bT<6)return;g.font='15px DungGeunMo, monospace';g.textAlign='left';g.textBaseline='middle';const w=Math.ceil(g.measureText(bL).width)+20,h=28,R0=mx-10;let x=Math.max(14,R0-w),y=my+6;
+  g.fillStyle='#1a1c2c';g.fillRect(x-3,y-3,w+6,h+6);g.fillStyle='#f4f4f4';g.fillRect(x,y,w,h);g.fillStyle='#c0c0c8';g.fillRect(x,y+h-3,w,3);
+  g.fillStyle='#1a1c2c';g.fillRect(x+w+3,y+9,4,10);g.fillRect(x+w+7,y+12,3,4);g.fillStyle='#f4f4f4';g.fillRect(x+w,y+10,5,8);g.fillRect(x+w+5,y+13,2,2);
+  g.fillStyle=st>0?'#d83a3a':st<0?'#2f6fd0':'#1a1c2c';g.fillText(bL,x+10,y+h/2)}
  function frame(){if(!cv||$('title').classList.contains('hide')){raf=0;return}f++;c=bc;c.fillStyle='#000';c.fillRect(0,0,W,H);rain();c=oc;c.clearRect(0,0,W,H);
   // dim panel behind scene
   

@@ -228,3 +228,9 @@
 - Kept from v21: beveled in-game LONG / 익절·손절 / SHORT buttons with press states; result-screen layout (칭호 card centered on top, no reaction monkey, stats, ranking, sticky 2x2 bar; 대전 .vrw leaderboard).
 - Title: clean/simple — desk scene image, sip overlay and monitor-candle overlays removed (asset deleted from title.js). Black bg + toned-down matrix rain (head α .32, trail .13), LED ticker, centered BANANASDAQ logo (top 200), red 출근하기 / blue 대전모드 beveled buttons (top 420), 최고기록 (540), 랭킹 (580, max-h 190), ⚙️. Layout in the 390x844 design space; checked at 360x780/375x667/390x844/412x915.
 - Cache-buster `?v=21` on apple-touch-icon, favicon, manifest links.
+
+## v21e (title chart + monkey)
+- Title gap between logo (top 100) and buttons (top 440) filled with a mini pixel candlestick chart (title.js `chartMk()` on the #tov overlay): candles form every ~5 frames, a new one every 45 frames, scrolling left; red up / blue down; faint grid + dashed price line; autoscaled.
+- The ORIGINAL v20 in-game monkey (global `face`/`body`/`bodyUp`/`draw`, scale 5, crisp) stands on the latest candle, easing to its high, hopping when up, sad when down.
+- Every ~3–4 s it transforms by trend (last 8 candles): 롱숭이 (headband drop + sparkle burst, red body) or 숏숭이 (lightning, dark burst, suit/sunglasses, cloud), with a tag label, for ~200 frames, then poofs back. Trend also biases candles.
+- 최고기록 556, 랭킹 592 (max-h 180). Same single rAF loop, no extra assets.

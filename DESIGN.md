@@ -239,3 +239,6 @@
 - Title chart ~2x faster (tick every 2 frames, new candle every 22 frames); monkey eases faster, hops every 10 frames; transforms unchanged.
 - Monkey speech bubble (`bubble()` in title.js): pixel bubble extending LEFT of the monkey (clamped x>=14) with tail to the monkey, near screen centre; changes every ~170 frames or on state change. 롱숭이/숏숭이 tag moved under the monkey.
 - Lines (`LN`) are reused verbatim from the in-game MUT pools (ID / LW / LL+MLOSS), 10 per state; no new lines.
+
+## v21g
+- Title speech: each line holds ~5.5s (340 frames), min hold ~4s (240 frames) before a mood change can switch it, ~0.3s no-bubble gap between lines. Mood judged over the last ~11 candles (threshold 4). Chart speed unchanged.

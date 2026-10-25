@@ -884,13 +884,13 @@ const TTL=(()=>{let bc,oc,cv,c,raf=0,f=0,lead=null,tx=0;const W=390,H=844,u=2;
    if(aw)draw(g,S2(['.GGG.','GGGGG','.GGG.']),mx+8+(cT%40<20?0:1),my-22,4)}
   draw(g,S2(F),mx,my,sc);draw(g,S2(Bd),mx,my+7*sc,sc);
   if(form){g.font='13px DungGeunMo, monospace';g.textAlign='center';g.textBaseline='middle';const tx=mx+25,tg=form>0?'롱숭이':'숏숭이';g.fillStyle=form>0?'#d83a3a':'#2f6fd0';g.fillRect(tx-26,my+68,52,18);g.fillStyle='#fff';g.fillText(tg,tx,my+78)}
-  bubble(g,mx,my,form?form:(up?1:-1)*(Math.abs(L.c-cs[Math.max(0,cs.length-5)].c)>3?1:0));
+  bubble(g,mx,my,form?form:(up?1:-1)*(Math.abs(L.c-cs[Math.max(0,cs.length-11)].c)>4?1:0));
   pts=pts.filter(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.08;g.fillStyle=p.c;g.fillRect(p.x|0,p.y|0,3,3);return--p.l>0})}
 
  const LN={0:['차트는 거짓말 안 한다 (거짓말함)','레버리지 쓰다 레버리지에 쓰인다','롱숭이 될까 숏숭이 될까','아무것도 안 하면 안 잃지','원숭이도 차트는 본다','오늘 운세 대박이랬는데','현금도 포지션이야','바나나 껍질 조심','연준 의장님 오늘 뭐라셔','커피 한 잔 할까'],1:['가즈아ㅏㅏ','포르쉐 색깔 고르는 중','부장님 안녕히 계세요','이 정도면 워렌 원숭이','익절? 그게 뭔데','람보르기니 시승 예약 완료','바나나 트럭째로 산다','올해 마이너스 4시간 정도 봤나?','킹스닥 가즈아!','엄마 나 성공했어'],'-1':['물렸다…','털렸다… 팔자마자 오름','설거지 당했다','상투 잡았다','차트가 잠깐 삐졌어','눈 감으면 수익','물린 게 아니라 버티는 중이다','계좌야 미안해','나 본전 올 때까지 숨 참음','내가 롱 잡으면 떨어지는 인간지표']};
  let bS=null,bL='',bT=0;
- function bubble(g,mx,my,st){bT++;if(st!==bS||bT>170){bS=st;bT=0;const a=LN[st]||LN[0];let n;do{n=a[Math.random()*a.length|0]}while(n===bL&&a.length>1);bL=n}
-  if(bT<6)return;g.font='15px DungGeunMo, monospace';g.textAlign='left';g.textBaseline='middle';const w=Math.ceil(g.measureText(bL).width)+20,h=28,R0=mx-10;let x=Math.max(14,R0-w),y=my+6;
+ function bubble(g,mx,my,st){bT++;if(bS===null||(st!==bS&&bT>240)||bT>340){bS=st;bT=0;const a=LN[st]||LN[0];let n;do{n=a[Math.random()*a.length|0]}while(n===bL&&a.length>1);bL=n}
+  if(bT<20)return;g.font='15px DungGeunMo, monospace';g.textAlign='left';g.textBaseline='middle';const w=Math.ceil(g.measureText(bL).width)+20,h=28,R0=mx-10;let x=Math.max(14,R0-w),y=my+6;
   g.fillStyle='#1a1c2c';g.fillRect(x-3,y-3,w+6,h+6);g.fillStyle='#f4f4f4';g.fillRect(x,y,w,h);g.fillStyle='#c0c0c8';g.fillRect(x,y+h-3,w,3);
   g.fillStyle='#1a1c2c';g.fillRect(x+w+3,y+9,4,10);g.fillRect(x+w+7,y+12,3,4);g.fillStyle='#f4f4f4';g.fillRect(x+w,y+10,5,8);g.fillRect(x+w+5,y+13,2,2);
   g.fillStyle=st>0?'#d83a3a':st<0?'#2f6fd0':'#1a1c2c';g.fillText(bL,x+10,y+h/2)}

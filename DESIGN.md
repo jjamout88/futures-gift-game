@@ -215,3 +215,10 @@
 
 - **v20:** FOMC 방해기믹 삭제 → 바나나스닥2의 차트 뒤집기(실적 시즌, 3봉) 이식. 풀 = 세 마녀/메일 폭탄/차트 뒤집기, 5봉마다 1개(시드 RNG라 대전에선 모두 동일). 디버그 window.__wa 제거. 대전 공개방: 방 만들기 → 🔓 공개방/🔒 비밀방 선택. 대전 메뉴에 공개방 목록(Supabase Realtime presence 채널 `nqvs-lobby`, 테이블 없음; 방장만 {code,host,n,st,ts} track). 대기 중·4명 미만 방만, 최신순 최대 10개, 방 수 제한 없음. 시작하면/비면 목록에서 사라짐. 코드 참가 유지.
 - **v20 타이틀 리디자인:** 검은 배경 + 매트릭스식 숫자 비(0-9 % ▲▼, 빨강/파랑, 가끔 바나나 노랑), 상단 LED 전광판(티커 ▲빨강/▼파랑 + 오늘의 1위 + 웃긴 뉴스), 'BANANASDAQ' 픽셀 로고만, 중앙 정장 원숭이(뒷모습, 고정 디자인)가 모니터 6대 책상에서 타이핑·머그 홀짝·꼬리 흔들기, 바나나/키보드 불빛/모니터 깜빡임. 하단 빨강 '출근하기'(=솔로) / 파랑 '대전모드' 버튼(맥동). 전부 canvas(#tcv) 코드 드로잉. 인게임 LONG 빨강/SHORT 파랑(기존 유지), 손익 줄의 LONG/SHORT 글자도 빨강/파랑.
+
+## v21 (local only, waiting for approval)
+- Title: GenerateImage assets (desk scene, sip frame, 3D BANANASDAQ logo) keyed from magenta, quantized PNG/base64. Canvas draws the black matrix rain, the LED ticker and live candles on the monitors (overlay #tov). Beveled 출근하기 (red) and 대전모드 (blue) buttons with press states.
+- In-game: generated monkey sprite sheet (idle/happy/sad/panic/faint/long/short/shock) in #mkBox with per-state CSS animation. Old fx-canvas monkey decorations removed. LONG/익절·손절/SHORT buttons are beveled with scanlines and press states; hit areas unchanged.
+- Result (solo): 칭호 card on top (gold frame, portrait reveal, reaction monkey), #rst stats panel (수익률/최종 잔고 tiles + 4 small tiles, 신기록 tags), ranking, then a sticky 2x2 .rbar (한 판 더 / 공유하기 / 칭호 도감 / 메인화면) with pixel SVG icons, safe-area padding.
+- Result (대전): .vrw layout. Title card with winner, medal leaderboard (gold/silver/bronze side bars, me highlighted), 2-tile .rbar.
+- Page title, manifest and share card name unchanged. The share card already uses 칭호 → stats order.

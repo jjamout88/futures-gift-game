@@ -247,3 +247,16 @@
 - Title speech text always black (#1a1c2c).
 - Red title button renamed 시작하기.
 - Title animation is time-based: rAF timestamp accumulator runs fixed 1/60s simulation steps (`step()`), max 4 per frame, so chart, hops, transforms, line hold (~5.5s / min 4s / 0.3s gap), rain and ticker run at the same real speed on 60Hz and 120Hz (verified: 59.9 steps/s with rAF driven at 60 and 120Hz). TTL exposes read-only `f`/`cT` for tests.
+
+## v22
+- 기믹 정리: CPI(메일폭탄)·실적 시즌 제거, **세 마녀의 날**만 유지 (5캔들마다 스케줄, 대전은 공유 시드 그대로).
+- 출근 전 '오늘의 세팅' 화면은 제거 → 시작하기 누르면 바로 게임 시작.
+- **인게임 베팅 줄 (초창기 #bets 스타일, 원숭이 바로 아래 한 줄)**: `[30%] [50%] [100%] [X10]` 큰 픽셀 버튼(높이 50px).
+  - % 버튼 아래에 실시간 금액(잔고 대비, 100%는 올인 금액) 표시, 선택된 것은 노란색. 기본 30%.
+  - X10은 ON/OFF 토글 (OFF = x1, ON = x10). 기본 OFF. ON이면 빨강 깜빡임 + 💀, 켤 때 '×10 위험!' 배너 + 흔들림 + 효과음. x2/x5는 삭제.
+  - 다음 진입부터 적용. 포지션이 열려 있으면 흐리게 잠금 + "🔒 포지션 종료 후 변경 가능".
+  - 대전: 방장이 로비에서 투자금 30/50/100 + 레버리지 X10 OFF/ON 선택, 게스트와 인게임 줄은 읽기 전용 "👑 방장 세팅 고정".
+- 손익 = √투자금/3 × 레버리지(1 또는 10), 손실이 투자금 이상이면 청산.
+- 결과 화면 칩 `⚡ x1 · 💰 30%` / `💀 X10 · 💰 50%`, 판 중 세팅을 바꿔 진입했으면 "(변경됨)". 로컬 랭킹에 lv/pct/chg 저장 (온라인 랭킹 스키마는 그대로).
+- HUD 세팅 태그 없음. 원숭이는 위로 올린 위치 유지(#space 134px).
+- 390x844, 360x740에서 겹침 없음 확인. 캐시버스터 ?v=22.

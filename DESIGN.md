@@ -315,3 +315,10 @@
 - **Supabase(추가만)**: leaderboard.player_key 컬럼(+anon insert 권한), player_assets 테이블(RLS, 공개 읽기, 직접 쓰기 불가), RPC `submit_asset`(SECURITY DEFINER: pid 길이·NaN·음수 거부, runs 단조 증가·1회 +20 제한, 잔고 상한 (이전잔고+1만)×1001^Δruns(최대 5) — 리더보드 수익률 상한 +100000%와 일치, x10 조기 해금도 수용), RPC `top_runs`.
 - 레버리지 해금가 인하: x5 $5만, X10 $10만.
 - 캐시버스터 ?v=26.
+
+## v27 — 대전 전적 · 1등 보상
+- 전적: localStorage `nq_vsrec` {pid,w,l,g,bw,done[최근 100 match id]}. pid가 바뀌면 초기화. 1등 = 승(동점이면 공동 1등 모두 승).
+- 메뉴/대기실 상단에 '🏆 내 대전 전적 N승 M패 (승률 X%)', 결과 화면에서 바로 갱신. 대기실 닉네임 옆 presence `w`로 🏆N승 표시.
+- 1등 보상: 내 계좌 +$100,000 ('🎉 1등 보상 +$10만 → 내 계좌 $X'). 대전 PnL은 계좌와 무관. match id(code-시작시각-라운드-seed)로 중복 수령 차단, 2인 이상일 때만(혼자 한 판은 전적·보상 없음).
+- Supabase(추가만): migration `v27_battle_reward` — `player_assets.bw int default 0`, `submit_asset(..., p_bw)` 오버로드. bw 단조증가(1회 최대 +20), 상한 = (old+10000)*1001^min(Δruns,5) + 100000*Δbw.
+- 대전 화면에서는 ⚙ 버튼 숨김(겹침 방지).

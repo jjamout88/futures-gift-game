@@ -708,7 +708,7 @@ function drawFx(){fc.clearRect(0,0,W,H);frame++;const bob=Math.sin(frame/10)>0?0
   if(fm>0){if(m==='idle')Bd=bodyUp;if(formT===18){burst(mx+15,my+5,30,['Y','w','p'],2,25,0,1);snd(1568,.08,'square',.05)}if(formT>18&&formT<26)my2=-((26-formT)%4)}
   if(fm<0){const aw=formT>=12;if(aw&&m==='idle')F=F.map((r,j)=>j===5?'.nskkkksn.':r);
    if(formT<30){if(formT%3===0)F=F.map((r,j)=>j===3?r.replace(/k/g,'c'):r);if(formT%4===0)P.push({x:mx+Math.random()*30,y:my+Math.random()*40,vx:(Math.random()-.5),vy:-.6,l:20,c:pick(['k','d','b']),g:0,s:2});if(formT===12){burst(mx+15,my+20,30,['k','d','b','c'],2.2,25,0,2);snd(90,.4,'sawtooth',.08,-40)}if(formT<20&&formT%5<2){fc.fillStyle='#73eff7';let lx=mx+5+Math.random()*20;for(let ly=my-30;ly<my;ly+=3){lx+=(Math.random()-.5)*4;fc.fillRect(lx|0,ly,1,3)}}}}
-  const au=m==='faint'?0:fm>0&&formT>=18?(frame%40<28?'#d04648':'#b13e53'):fm<0&&formT>=12?(frame%40<28?'#3b5dc9':'#29366f'):0;drawHi(fc,[[Bd,mx,my+21],[F,mx,my+my2]],3,au||undefined);drawCos(fc,mx,my+my2,3,my+21);my2=0;fc.restore();
+  const au=m==='faint'?0:fm>0&&formT>=18?(frame%40<28?'#d04648':'#b13e53'):fm<0&&formT>=12?(frame%40<28?'#3b5dc9':'#29366f'):0;if(MK_RES===3){const bl=(m==='idle'||m==='sad')&&frame%150<5;drawMK(fc,mx,my+my2+6,m,au||undefined,{blink:bl,look:fm>0&&m==='idle'?-1:fm<0&&m==='idle'?1:0})}else drawHi(fc,[[Bd,mx,my+21],[F,mx,my+my2]],3,au||undefined);drawCos(fc,mx,my+my2,3,my+21);my2=0;fc.restore();
   if(fm>0&&m!=='faint'&&formT>=18){drawHi(fc,[[['..r..','.rrr.','rrrrr','.rrr.','.rrr.'],mx+33,my+33-(frame%30<15?2:0)]],2);if(frame%18===0)P.push({x:mx+Math.random()*32,y:my+8+Math.random()*30,vx:0,vy:-.3,l:20,c:'Y',g:0,s:1})}
   if(fm<0&&m!=='faint'&&formT>=12){drawHi(fc,[[['.BBB.','.BBB.','BBBBB','.BBB.','..B..'],mx+33,my+33+(frame%20<10?0:2)]],2);const sy=(frame%50)/50;if(sy<.8)drawHi(fc,[[['.c.','ccc','ccc','.c.'],mx-5,my+4+sy*8]],1.5)}
   if(S.pos&&m==='happy'&&frame%9===0)P.push({x:mx-2+Math.random()*36,y:my-4+Math.random()*20,vx:0,vy:-.2,l:16,c:pick(['Y','w']),g:0,s:1});
@@ -754,7 +754,37 @@ const SHOP=[
  {id:'h_dia',c:'hat',n:'다이아 왕관',d:'전설의 원숭이만',p:1e15}];
 const SLOT={hat:'hat',face:'face',neck:'neck',theme:'theme',bub:'bub'};
 const SHT=[['all','전체'],['lv','레버리지'],['hat','모자'],['face','얼굴·목'],['theme','테마']];let shTab='all';
-function drawCos(ctx,mx,my,sc,by){for(const k of['neck','face','hat']){const c=COS[ACC.eq[k]];if(!c)continue;drawHi(ctx,[[c.r,mx,c.b?by+(c.y||0)*sc:my+c.y*sc]],sc)}}
+
+// v25 concept monkey (user design): 20x22 cells @1.5u, drawn when MK_RES===3
+const MKC={o:'#4a2c1a',n:'#9a6345',m:'#6e4430',c:'#f6e2b0',k:'#1a1c2c',p:'#e88a9a',d:'#5d3a1a',r:'#b13e53',B:'#41a6f6',w:'#f4f4f4'};
+const MKBASE=(()=>{const W2=20,H2=22,g=[];for(let j=0;j<H2;j++)g.push(Array(W2).fill('.'));const In=(x,y,cx,cy,rx,ry)=>((x+.5-cx)/rx)**2+((y+.5-cy)/ry)**2<=1;
+ for(let j=0;j<H2;j++)for(let i=0;i<W2;i++){let v='.';
+  if(j>=14&&In(i,j,10.6,18.6,5.6,3.6))v='n';if(In(i,j,4.2,18.2,1.6,1.6)||In(i,j,16.8,17.6,1.6,1.8))v='n';if(j>=19&&(In(i,j,7.6,21,1.8,1.1)||In(i,j,13.6,21,1.8,1.1)))v='m';
+  if(j>=15&&In(i,j,11,19,3.1,2.3))v='c';
+  if(In(i,j,1.9,10.5,2.1,2.4)||In(i,j,18.1,10.5,2.1,2.4))v=In(i,j,1.9,10.5,1.1,1.4)||In(i,j,18.1,10.5,1.1,1.4)?'c':'m';
+  if(In(i,j,10,8.6,8.4,7.6))v='n';
+  if(j>=6&&(In(i,j,7,10.6,3.7,4.4)||In(i,j,13,10.6,3.7,4.4)||In(i,j,10,12.8,6.4,2.9))&&!(j<8&&i>=9&&i<=10))v='c';
+  g[j][i]=v}
+ for(let j=0;j<H2;j++)for(let i=0;i<W2;i++)if(g[j][i]==='.'&&[[1,0],[-1,0],[0,1],[0,-1]].some(([a,b])=>{const q=(g[j+b]||[])[i+a];return q&&q!=='.'&&q!=='o'&&q!=='O'}))g[j][i]='O';
+ for(const r of g)for(let i=0;i<r.length;i++)if(r[i]==='O')r[i]='o';return g})();
+const MKEYE={L:5,R:12,y:9};
+function mkFace(m,blink,look){const g=MKBASE.map(r=>r.slice()),S=(i,j,v)=>{if(g[j]&&g[j][i]!==undefined)g[j][i]=v};const ey=MKEYE.y+(look||0);
+ for(const a of[MKEYE.L,MKEYE.R]){
+  if(m==='happy'){S(a+1,ey+1,'k');S(a,ey+2,'k');S(a+2,ey+2,'k')}
+  else if(m==='faint'){for(let d=0;d<3;d++){S(a+d,ey+d,'k');S(a+2-d,ey+d,'k')}}
+  else if(blink){for(let d=0;d<3;d++)S(a+d,ey+3,'k')}
+  else{const t=m==='panic'?ey-1:ey;for(let y=t;y<ey+4;y++)for(let d=0;d<3;d++)S(a+d,y,'k');S(a+1,t+1,'w')}}
+ // blush, nose, mouth
+ S(3,13,'p');S(4,13,'p');S(15,13,'p');S(16,13,'p');S(9,12,'d');S(10,12,'d');
+ if(m==='happy'){S(9,14,'r');S(10,14,'r');S(8,13,'d');S(11,13,'d')}
+ else if(m==='sad'){S(9,14,'d');S(10,14,'d');S(8,15,'d');S(11,15,'d');S(6,13,'B');S(6,14,'B');S(13,13,'B');S(13,14,'B')}
+ else if(m==='panic'){S(9,14,'d');S(10,14,'d');S(9,15,'d');S(10,15,'d')}
+ else if(m==='faint'){for(let i=8;i<12;i++)S(i,14,'d')}
+ else{S(9,14,'d');S(10,14,'d')}
+ return g}
+function drawMK(ctx,x,y,m,oc,o){const g=mkFace(m,o&&o.blink,o&&o.look),u=1.5;for(let j=0;j<g.length;j++)for(let i=0;i<g[j].length;i++){const v=g[j][i];if(v==='.')continue;ctx.fillStyle=v==='o'&&oc?oc:MKC[v];ctx.fillRect(x+i*u,y+j*u,u,u)}}
+const COSB={hat:15,face:11,neck:9};function drawCosB(ctx,mx,my,sc,by){for(const k of['neck','face','hat']){const c=COS[ACC.eq[k]];if(!c)continue;drawHi(ctx,[[c.r,mx,(c.b?by+(c.y||0)*sc:my+c.y*sc)+COSB[k]]],sc)}}
+function drawCos(ctx,mx,my,sc,by){if(MK_RES===3&&sc===3)return drawCosB(ctx,mx,my,sc,by);for(const k of['neck','face','hat']){const c=COS[ACC.eq[k]];if(!c)continue;drawHi(ctx,[[c.r,mx,c.b?by+(c.y||0)*sc:my+c.y*sc]],sc)}}
 function applyCos(){const t=THEMES[ACC.eq.theme]||THEMES._;const cb=$('chartBox');if(cb)cb.style.borderColor=t.bd;const m=$('mut');if(m){m.classList.toggle('bn',ACC.eq.bub==='b_note');m.classList.toggle('bg',ACC.eq.bub==='b_gold')}}
 function accT(){const e=$('accT');if(e)e.innerHTML=`<span>🏦 내 계좌 <b>${fmtC(ACC.bal)}</b></span><small>파산 ${ACC.bk}회 · 최고 ${fmtC(ACC.hi)}</small>`}
 function shPrev(it){if(it.ic)return `<div class="sw">${it.ic}</div>`;if(it.c==='theme'){const t=THEMES[it.id];return `<div class="sw" style="background:${t.bg};border-color:${t.bd}"><span style="color:#e43b44;font-size:18px">▮</span><span style="color:#3b7dd8;font-size:18px">▮</span></div>`}return `<canvas width="96" height="96" data-p="${it.id}"></canvas>`}
@@ -773,7 +803,7 @@ setTimeout(()=>{applyCos();accT()},0);
 $('long').onclick=()=>enter(1);$('short').onclick=()=>enter(-1);$('close').onclick=()=>close('');
 $('start').onclick=()=>{snd(660,.1);startDay()};$('next').onclick=()=>startDay();
 BETS.forEach(b=>{const e=$('b'+b);e.onclick=()=>{S.pct=b;BETS.forEach(x=>$('b'+x).classList.toggle('sel',x===b));snd(1000,.03)}});
-$('again').onclick=()=>startDay();$('homeR').onclick=()=>{snd(660,.05);goHome()};$('vsB').onclick=()=>{snd(660,.1);VS.open()};window.__snd=snd;window.__T={hiG,get MK_RES(){return MK_RES},step,startDay,endDay,liquidate,accSettle,goHome,upnl,get ACC(){return ACC},get state(){return state},face,body,draw,spr,drawHi,COS,setMood,showRes,get S(){return S},get G(){return G},enter,close,fee,comboPct};
+$('again').onclick=()=>startDay();$('homeR').onclick=()=>{snd(660,.05);goHome()};$('vsB').onclick=()=>{snd(660,.1);VS.open()};window.__snd=snd;window.__T={drawCos,drawMK,mkFace,MKBASE,COSB,hiG,get MK_RES(){return MK_RES},step,startDay,endDay,liquidate,accSettle,goHome,upnl,get ACC(){return ACC},get state(){return state},face,body,draw,spr,drawHi,COS,setMood,showRes,get S(){return S},get G(){return G},enter,close,fee,comboPct};
 showTitleLB();accT();$('bestT').innerHTML=best.bal<=0?'최고 기록 없음':'최고 기록 '+fmt(best.bal)+' · '+(best.ret>=0?'+':'')+best.ret.toFixed(1)+'%';
 
 // ---------- 대전 (realtime multiplayer via Supabase Realtime broadcast+presence) ----------

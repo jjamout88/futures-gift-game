@@ -414,8 +414,8 @@ const bell=()=>{[0,300,600].forEach(t=>setTimeout(()=>snd(1568,.5,'triangle',.08
 const PAL={'A':'#1a1c2c','W':'#1a1c2c','T':'#ffcd75','U':'#ffcd75','h':'#b0703a','m':'#7a4519','q':'#e8a860','x':'#3a2412','S':'#ffe2ad',W0:0,'k':'#1a1c2c','w':'#f4f4f4','s':'#ffcd75','r':'#b13e53','g':'#38b764','y':'#ffcd75','Y':'#f7e26b','b':'#3b5dc9','B':'#41a6f6','n':'#94531f','N':'#5d3a1a','p':'#ef7d57','G':'#566c86','c':'#73eff7','o':'#ff8c1a','P':'#ff9ec4','d':'#333c57'};
 function spr(rows){return rows.map(r=>r.split(''))}
 // v25 hi-res monkey: 2x grid + rim light, shading, eye glints, outline
-// MK_RES: 2 = monkey A (refined, default) · 3 = monkey B (finer sub-pixels, rounded corners)
-const MK_RES=+(new URLSearchParams(location.search).get('mk')==='b'?3:2);
+// MK_RES: 3 = monkey B (default, finer sub-pixels) · 2 = monkey A (?mk=a)
+const MK_RES=+(new URLSearchParams(location.search).get('mk')==='a'?2:3);
 const HIC={};function hiG(rows,K=MK_RES){const L=rows.map(r=>typeof r==='string'?r:r.join(''));const key=K+'#'+L.join('|');if(HIC[key])return HIC[key];const h=L.length,w=Math.max(...L.map(r=>r.length));const at=(i,j)=>j<0||j>=h||i<0||i>=w?'.':(L[j][i]||'.');const G=[];for(let j=0;j<h*K+2;j++)G.push(Array(w*K+2).fill('.'));const E=v=>v==='.';
  for(let j=0;j<h;j++)for(let i=0;i<w;i++){const c=at(i,j);if(c==='.')continue;const X=i*K+1,Y=j*K+1,l=K-1,mid=K>>1;const B=[];for(let y=0;y<K;y++){B.push(Array(K).fill(c))}
   if(c==='n'){if(E(at(i,j-1)))for(let x=0;x<K-(E(at(i+1,j-1))?0:1);x++)B[0][x]='h';if(E(at(i+1,j)))for(let y=0;y<K;y++)B[y][l]='m';if(E(at(i,j+1)))for(let x=0;x<K;x++)B[l][x]='m'}

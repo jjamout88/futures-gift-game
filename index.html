@@ -423,7 +423,6 @@ const HIC={};function hiG(rows,K=MK_RES){const L=rows.map(r=>typeof r==='string'
   else if(c==='A'){for(let y=0;y<K;y++)for(let x=0;x<K;x++)B[y][x]=y===(K>2?mid:0)?'k':'s';if(K>2){B[mid][0]='s';B[mid][l]='s';B[mid-1][0]='k';B[mid-1][l]='k'}}
   else if(c==='W'){for(let y=0;y<K;y++)for(let x=0;x<K;x++)B[y][x]='w';B[K>2?mid:l][K>2?mid:l]='k'}
   else if(c==='T'||c==='U'){for(let y=0;y<K;y++)for(let x=0;x<K;x++)B[y][x]='s'}
-  else if(c==='k'&&K>2&&at(i-1,j)!=='k'&&at(i+1,j)!=='k'&&at(i,j-1)!=='k'&&at(i,j+1)!=='k'){const sk=at(i-1,j)==='s'||at(i+1,j)==='s'?'s':null;if(sk){B[0][0]=B[0][l]=B[l][0]=B[l][l]=sk}}
   if(K>2&&!'kAWTU'.includes(c)){if(E(at(i,j-1))&&E(at(i-1,j)))B[0][0]='.';if(E(at(i,j-1))&&E(at(i+1,j)))B[0][l]='.';if(E(at(i,j+1))&&E(at(i-1,j)))B[l][0]='.';if(E(at(i,j+1))&&E(at(i+1,j)))B[l][l]='.'}
   for(let y=0;y<K;y++)for(let x=0;x<K;x++)G[Y+y][X+x]=B[y][x]}
  for(let j=0;j<G.length;j++)for(let i=0;i<G[0].length;i++)if(G[j][i]==='.'){if([[0,-1],[0,1],[-1,0],[1,0]].some(([dx,dy])=>{const v=(G[j+dy]||[])[i+dx];return v&&v!=='.'&&v!=='o0'}))G[j][i]='o0'}
@@ -433,8 +432,8 @@ function draw(ctx,s,x,y,sc=1,flip=false){for(let j=0;j<s.length;j++)for(let i=0;
 const BAN=spr(['.......NN','......YY.','.....YYY.','....YYYY.','Y.YYYYYY.','YYYYYYY..','.YYYYY...','..YYY....']);const BR=[];
 const face={
  idle:['..nnnnnn..','.nnnnnnnn.','snnssssnns','snskssksns','.nssssssn.','.nsskkssn.','..nnnnnn..'],
- happy:['..nnnnnn..','.nnnnnnnn.','snnssssnns','snsAssAsns','.nPssssPn.','.nskrrksn.','..nnnnnn..'],
- sad:['..nnnnnn..','.nnnnnnnn.','snnssssnns','snskssksns','.nsTssUsn.','.nskssksn.','..nnnnnn..'],
+ happy:['..nnnnnn..','.nnnnnnnn.','snnssssnns','snsAssAsns','.nPssssPn.','.nsrrrrsn.','..nnnnnn..'],
+ sad:['..nnnnnn..','.nnnnnnnn.','snnssssnns','snskssksns','.nsTssUsn.','.nskkkksn.','..nnnnnn..'],
  panic:['..nnnnnn..','.nnnnnnnn.','snnssssnns','snsWssWsns','.nssssssn.','.nssrrssn.','..nnnnnn..'],
  faint:['..nnnnnn..','.nnnnnnnn.','snnssssnns','snkksskkns','.nssssssn.','.nsskkssn.','..nnnnnn..'],
 };

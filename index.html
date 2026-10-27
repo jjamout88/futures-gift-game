@@ -415,7 +415,7 @@ let CFG=Object.assign({bgm:true,vol:50,sfx:true},(()=>{try{return JSON.parse(loc
 const coinSnd=()=>{snd(988,.08);setTimeout(()=>snd(1319,.25),80)};
 const bell=()=>{[0,300,600].forEach(t=>setTimeout(()=>snd(1568,.5,'triangle',.08),t))};
 // ---------- sprites (pixel arrays) ----------
-const PAL={'A':'#1a1c2c','W':'#1a1c2c','T':'#ffcd75','U':'#ffcd75','h':'#b0703a','m':'#7a4519','q':'#e8a860','x':'#3a2412','S':'#ffe2ad',W0:0,'k':'#1a1c2c','w':'#f4f4f4','s':'#ffcd75','r':'#b13e53','g':'#38b764','y':'#ffcd75','Y':'#f7e26b','b':'#3b5dc9','B':'#41a6f6','n':'#94531f','N':'#5d3a1a','p':'#ef7d57','G':'#566c86','c':'#73eff7','o':'#ff8c1a','P':'#ff9ec4','d':'#333c57'};
+const PAL={'H':'#e53935','E':'#a3201f','L':'#ffd0cc','A':'#1a1c2c','W':'#1a1c2c','T':'#ffcd75','U':'#ffcd75','h':'#b0703a','m':'#7a4519','q':'#e8a860','x':'#3a2412','S':'#ffe2ad',W0:0,'k':'#1a1c2c','w':'#f4f4f4','s':'#ffcd75','r':'#b13e53','g':'#38b764','y':'#ffcd75','Y':'#f7e26b','b':'#3b5dc9','B':'#41a6f6','n':'#94531f','N':'#5d3a1a','p':'#ef7d57','G':'#566c86','c':'#73eff7','o':'#ff8c1a','P':'#ff9ec4','d':'#333c57'};
 function spr(rows){return rows.map(r=>r.split(''))}
 // v25 hi-res monkey: 2x grid + rim light, shading, eye glints, outline
 // MK_RES: 3 = monkey B (default, finer sub-pixels) · 2 = monkey A (?mk=a)
@@ -733,7 +733,7 @@ function drawFx(){fc.clearRect(0,0,W,H);frame++;const bob=Math.sin(frame/10)>0?0
   if(fm<0){const aw=formT>=12;if(aw&&m==='idle')F=F.map((r,j)=>j===5?'.nskkkksn.':r);
    if(formT<30){if(formT%3===0)F=F.map((r,j)=>j===3?r.replace(/k/g,'c'):r);if(formT%4===0)P.push({x:mx+Math.random()*30,y:my+Math.random()*40,vx:(Math.random()-.5),vy:-.6,l:20,c:pick(['k','d','b']),g:0,s:2});if(formT===12){burst(mx+15,my+20,30,['k','d','b','c'],2.2,25,0,2);snd(90,.4,'sawtooth',.08,-40)}if(formT<20&&formT%5<2){fc.fillStyle='#73eff7';let lx=mx+5+Math.random()*20;for(let ly=my-30;ly<my;ly+=3){lx+=(Math.random()-.5)*4;fc.fillRect(lx|0,ly,1,3)}}}}
   const au=m==='faint'?0:fm>0&&formT>=18?(frame%40<28?'#d04648':'#b13e53'):fm<0&&formT>=12?(frame%40<28?'#3b5dc9':'#29366f'):0;drawHi(fc,[[Bd,mx,my+21],[F,mx,my+my2]],3,au||undefined);drawCos(fc,mx,my+my2,3,my+21);my2=0;fc.restore();
-  if(fm>0&&m!=='faint'&&formT>=18){drawHi(fc,[[['..r..','.rrr.','rrrrr','.rrr.','.rrr.'],mx+33,my+33-(frame%30<15?2:0)]],2);if(frame%18===0)P.push({x:mx+Math.random()*32,y:my+8+Math.random()*30,vx:0,vy:-.3,l:20,c:'Y',g:0,s:1})}
+  if(fm>0&&m!=='faint'&&formT>=18){drawHi(fc,[[['.EE.EE.','EHLEHHE','EHHHHHE','.EHHHE.','..EHE..','...E...'],mx+31,my+32-(frame%30<15?2:0)]],2,'#4a0d12',1);if(frame%18===0)P.push({x:mx+Math.random()*32,y:my+8+Math.random()*30,vx:0,vy:-.3,l:20,c:'Y',g:0,s:1})}
   if(fm<0&&m!=='faint'&&formT>=12){drawHi(fc,[[['.BBB.','.BBB.','BBBBB','.BBB.','..B..'],mx+33,my+33+(frame%20<10?0:2)]],2);const sy=(frame%50)/50;if(sy<.8)drawHi(fc,[[['.c.','ccc','ccc','.c.'],mx-5,my+4+sy*8]],1.5)}
   if(S.pos&&m==='happy'&&frame%9===0)P.push({x:mx-2+Math.random()*36,y:my-4+Math.random()*20,vx:0,vy:-.2,l:16,c:pick(['Y','w']),g:0,s:1});
   if(m==='sad'&&frame%20===0)P.push({x:mx+22,y:my+6,vx:.2,vy:.3,l:30,c:'B',g:.05,s:1});
